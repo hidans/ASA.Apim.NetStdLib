@@ -27,7 +27,7 @@ namespace ASA.Apim.NetStdLib
             try
             {
                 var service = ServiceClientHelper.CourseHeaderServiceClient(accountKey, subscriptionKey);
-                var response = await service.ReadMultipleAsync(filter, "", size);
+                var response = service.ReadMultipleAsync(filter, "", size).Result;
                 await service.CloseAsync();
                 return response.ReadMultiple_Result.ToList();
             }
@@ -61,18 +61,18 @@ namespace ASA.Apim.NetStdLib
             return GetCourseLocationListById(subscriptionKey, accountKey, "");
         }
 
-        public static async Task<IEnumerable<courseLocationList>> GetCourseLocationList(courseLocationList_Filter[] filter, string accountKey, string subscriptionKey, int size = 0)
+        public static async Task<IEnumerable<courseLocationList>> GetCourseLocationList(courseLocationList_Filter[] filter, string subscriptionKey, string accountKey, int size = 0)
         {
             try
             {
                 var service = ServiceClientHelper.CourseLocationListServiceClient(accountKey, subscriptionKey);
-                var response = await service.ReadMultipleAsync(filter, "", size);
+                var response = service.ReadMultipleAsync(filter, "", size).Result;
                 await service.CloseAsync();
                 return response.ReadMultiple_Result.ToList();
             }
             catch (Exception exception)
             {
-                throw exception;
+                throw new Exception("Fejl i async Task", exception);
             }
         }
         internal static courseLocationList_Filter[] SingleCourseLocationListFilter(string criteria, courseLocationList_Fields field)
