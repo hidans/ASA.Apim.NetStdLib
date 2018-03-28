@@ -16,23 +16,23 @@ namespace ASA.Apim.NetStdLib.UserAgentBehavior
 
         public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, IClientChannel channel)
         {
-            if(_credentials != null)
+            if (_credentials != null)
             {
                 if (request.Properties.Count == 0 || request.Properties[HttpRequestMessageProperty.Name] == null)
                 {
-                    if(!string.IsNullOrEmpty(_credentials.AccountKey))
+                    var httpRequestMessageProperty = new HttpRequestMessageProperty();
+
+                    if (!string.IsNullOrEmpty(_credentials.AccountKey))
                     {
-                        var reqMsgPropAccKey = new HttpRequestMessageProperty();
-                        reqMsgPropAccKey.Headers[Constants.RequestHeaderKeys.Account] = _credentials.AccountKey;
-                        request.Properties.Add(HttpRequestMessageProperty.Name, reqMsgPropAccKey);
+                        httpRequestMessageProperty.Headers[Constants.RequestHeaderKeys.Account] = _credentials.AccountKey;
                     }
 
                     if (!string.IsNullOrEmpty(_credentials.SubscriptionKey))
                     {
-                        var reqMsgPropSubKey = new HttpRequestMessageProperty();
-                        reqMsgPropSubKey.Headers[Constants.RequestHeaderKeys.SubSubscriptionKey] = _credentials.SubscriptionKey;
-                        request.Properties.Add(HttpRequestMessageProperty.Name, reqMsgPropSubKey);
+                        httpRequestMessageProperty.Headers[Constants.RequestHeaderKeys.SubSubscriptionKey] = _credentials.SubscriptionKey;
                     }
+
+                    request.Properties.Add(HttpRequestMessageProperty.Name, httpRequestMessageProperty);
                 }
                 else
                 {
