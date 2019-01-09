@@ -11,10 +11,18 @@ namespace CourseHeader_WebService
 {
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", ConfigurationName="CourseHeader_WebService.CourseHeader_Service")]
     public interface CourseHeader_Service
     {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/courseheader:GetRecIdFromKey", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<CourseHeader_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(CourseHeader_WebService.GetRecIdFromKeyRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/courseheader:IsUpdated", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<CourseHeader_WebService.IsUpdatedResponse> IsUpdatedAsync(CourseHeader_WebService.IsUpdatedRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/courseheader:Read", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -27,18 +35,90 @@ namespace CourseHeader_WebService
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/courseheader:ReadMultiple", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<CourseHeader_WebService.ReadMultipleResponse> ReadMultipleAsync(CourseHeader_WebService.ReadMultipleRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
+    public partial class GetRecIdFromKeyRequest
+    {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/courseheader:IsUpdated", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<CourseHeader_WebService.IsUpdatedResponse> IsUpdatedAsync(CourseHeader_WebService.IsUpdatedRequest request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
+        public string Key;
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/courseheader:GetRecIdFromKey", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<CourseHeader_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(CourseHeader_WebService.GetRecIdFromKeyRequest request);
+        public GetRecIdFromKeyRequest()
+        {
+        }
+        
+        public GetRecIdFromKeyRequest(string Key)
+        {
+            this.Key = Key;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
+    public partial class GetRecIdFromKeyResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
+        public string GetRecIdFromKey_Result;
+        
+        public GetRecIdFromKeyResponse()
+        {
+        }
+        
+        public GetRecIdFromKeyResponse(string GetRecIdFromKey_Result)
+        {
+            this.GetRecIdFromKey_Result = GetRecIdFromKey_Result;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
+    public partial class IsUpdatedRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
+        public string Key;
+        
+        public IsUpdatedRequest()
+        {
+        }
+        
+        public IsUpdatedRequest(string Key)
+        {
+            this.Key = Key;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
+    public partial class IsUpdatedResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
+        public bool IsUpdated_Result;
+        
+        public IsUpdatedResponse()
+        {
+        }
+        
+        public IsUpdatedResponse(bool IsUpdated_Result)
+        {
+            this.IsUpdated_Result = IsUpdated_Result;
+        }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader")]
     public partial class CourseHeader
@@ -126,11 +206,77 @@ namespace CourseHeader_WebService
         
         private bool qty_Meeting_TimesFieldSpecified;
         
-        private string teacher_NameField;
+        private string courseDepartmentField;
         
-        private string teacher_Work_Phone_NoField;
+        private decimal standardPricePerParticipantField;
         
-        private string teacher_Work_E_MailField;
+        private bool standardPricePerParticipantFieldSpecified;
+        
+        private string primaryTeacherNoField;
+        
+        private string primaryTeacherNameField;
+        
+        private string primaryTeacherPhoneNoField;
+        
+        private string primaryTeacherEmailField;
+        
+        private string internalCourseStatusField;
+        
+        private GeneralCourseStatus generalCourseStatusField;
+        
+        private bool generalCourseStatusFieldSpecified;
+        
+        private decimal lessonsPerSessionField;
+        
+        private bool lessonsPerSessionFieldSpecified;
+        
+        private string pictureField;
+        
+        private int levelField;
+        
+        private bool levelFieldSpecified;
+        
+        private string portalKeyWordsField;
+        
+        private string courseheaderImageField;
+        
+        private int courseHeaderImageSizeField;
+        
+        private bool courseHeaderImageSizeFieldSpecified;
+        
+        private string htmlStreamField;
+        
+        private string htmlBinWinStreamField;
+        
+        private string image_CodeField;
+        
+        private string originalImageFileNameField;
+        
+        private bool imageHasValueInLibraryField;
+        
+        private bool imageHasValueInLibraryFieldSpecified;
+        
+        private string htmlCourseDescriptionField;
+        
+        private string htmlRegistrationDescriptionField;
+        
+        private string htmlCatalogueDescriptionField;
+        
+        private string course_Location_NoField;
+        
+        private string courseLocationNameField;
+        
+        private string classRoomNoField;
+        
+        private string classRoomNameField;
+        
+        private string courseLevelField;
+        
+        private string courseLevelNameField;
+        
+        private int availableSeatsField;
+        
+        private bool availableSeatsFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -708,49 +854,533 @@ namespace CourseHeader_WebService
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=28)]
-        public string Teacher_Name
+        public string CourseDepartment
         {
             get
             {
-                return this.teacher_NameField;
+                return this.courseDepartmentField;
             }
             set
             {
-                this.teacher_NameField = value;
+                this.courseDepartmentField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=29)]
-        public string Teacher_Work_Phone_No
+        public decimal StandardPricePerParticipant
         {
             get
             {
-                return this.teacher_Work_Phone_NoField;
+                return this.standardPricePerParticipantField;
             }
             set
             {
-                this.teacher_Work_Phone_NoField = value;
+                this.standardPricePerParticipantField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StandardPricePerParticipantSpecified
+        {
+            get
+            {
+                return this.standardPricePerParticipantFieldSpecified;
+            }
+            set
+            {
+                this.standardPricePerParticipantFieldSpecified = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=30)]
-        public string Teacher_Work_E_Mail
+        public string PrimaryTeacherNo
         {
             get
             {
-                return this.teacher_Work_E_MailField;
+                return this.primaryTeacherNoField;
             }
             set
             {
-                this.teacher_Work_E_MailField = value;
+                this.primaryTeacherNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        public string PrimaryTeacherName
+        {
+            get
+            {
+                return this.primaryTeacherNameField;
+            }
+            set
+            {
+                this.primaryTeacherNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
+        public string PrimaryTeacherPhoneNo
+        {
+            get
+            {
+                return this.primaryTeacherPhoneNoField;
+            }
+            set
+            {
+                this.primaryTeacherPhoneNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
+        public string PrimaryTeacherEmail
+        {
+            get
+            {
+                return this.primaryTeacherEmailField;
+            }
+            set
+            {
+                this.primaryTeacherEmailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
+        public string InternalCourseStatus
+        {
+            get
+            {
+                return this.internalCourseStatusField;
+            }
+            set
+            {
+                this.internalCourseStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
+        public GeneralCourseStatus GeneralCourseStatus
+        {
+            get
+            {
+                return this.generalCourseStatusField;
+            }
+            set
+            {
+                this.generalCourseStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool GeneralCourseStatusSpecified
+        {
+            get
+            {
+                return this.generalCourseStatusFieldSpecified;
+            }
+            set
+            {
+                this.generalCourseStatusFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
+        public decimal LessonsPerSession
+        {
+            get
+            {
+                return this.lessonsPerSessionField;
+            }
+            set
+            {
+                this.lessonsPerSessionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool LessonsPerSessionSpecified
+        {
+            get
+            {
+                return this.lessonsPerSessionFieldSpecified;
+            }
+            set
+            {
+                this.lessonsPerSessionFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
+        public string Picture
+        {
+            get
+            {
+                return this.pictureField;
+            }
+            set
+            {
+                this.pictureField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
+        public int Level
+        {
+            get
+            {
+                return this.levelField;
+            }
+            set
+            {
+                this.levelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool LevelSpecified
+        {
+            get
+            {
+                return this.levelFieldSpecified;
+            }
+            set
+            {
+                this.levelFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
+        public string PortalKeyWords
+        {
+            get
+            {
+                return this.portalKeyWordsField;
+            }
+            set
+            {
+                this.portalKeyWordsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
+        public string courseheaderImage
+        {
+            get
+            {
+                return this.courseheaderImageField;
+            }
+            set
+            {
+                this.courseheaderImageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
+        public int courseHeaderImageSize
+        {
+            get
+            {
+                return this.courseHeaderImageSizeField;
+            }
+            set
+            {
+                this.courseHeaderImageSizeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool courseHeaderImageSizeSpecified
+        {
+            get
+            {
+                return this.courseHeaderImageSizeFieldSpecified;
+            }
+            set
+            {
+                this.courseHeaderImageSizeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
+        public string htmlStream
+        {
+            get
+            {
+                return this.htmlStreamField;
+            }
+            set
+            {
+                this.htmlStreamField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=43)]
+        public string htmlBinWinStream
+        {
+            get
+            {
+                return this.htmlBinWinStreamField;
+            }
+            set
+            {
+                this.htmlBinWinStreamField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=44)]
+        public string Image_Code
+        {
+            get
+            {
+                return this.image_CodeField;
+            }
+            set
+            {
+                this.image_CodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=45)]
+        public string originalImageFileName
+        {
+            get
+            {
+                return this.originalImageFileNameField;
+            }
+            set
+            {
+                this.originalImageFileNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=46)]
+        public bool imageHasValueInLibrary
+        {
+            get
+            {
+                return this.imageHasValueInLibraryField;
+            }
+            set
+            {
+                this.imageHasValueInLibraryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool imageHasValueInLibrarySpecified
+        {
+            get
+            {
+                return this.imageHasValueInLibraryFieldSpecified;
+            }
+            set
+            {
+                this.imageHasValueInLibraryFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=47)]
+        public string htmlCourseDescription
+        {
+            get
+            {
+                return this.htmlCourseDescriptionField;
+            }
+            set
+            {
+                this.htmlCourseDescriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=48)]
+        public string htmlRegistrationDescription
+        {
+            get
+            {
+                return this.htmlRegistrationDescriptionField;
+            }
+            set
+            {
+                this.htmlRegistrationDescriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=49)]
+        public string htmlCatalogueDescription
+        {
+            get
+            {
+                return this.htmlCatalogueDescriptionField;
+            }
+            set
+            {
+                this.htmlCatalogueDescriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=50)]
+        public string Course_Location_No
+        {
+            get
+            {
+                return this.course_Location_NoField;
+            }
+            set
+            {
+                this.course_Location_NoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=51)]
+        public string courseLocationName
+        {
+            get
+            {
+                return this.courseLocationNameField;
+            }
+            set
+            {
+                this.courseLocationNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=52)]
+        public string classRoomNo
+        {
+            get
+            {
+                return this.classRoomNoField;
+            }
+            set
+            {
+                this.classRoomNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=53)]
+        public string classRoomName
+        {
+            get
+            {
+                return this.classRoomNameField;
+            }
+            set
+            {
+                this.classRoomNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=54)]
+        public string courseLevel
+        {
+            get
+            {
+                return this.courseLevelField;
+            }
+            set
+            {
+                this.courseLevelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=55)]
+        public string courseLevelName
+        {
+            get
+            {
+                return this.courseLevelNameField;
+            }
+            set
+            {
+                this.courseLevelNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=56)]
+        public int AvailableSeats
+        {
+            get
+            {
+                return this.availableSeatsField;
+            }
+            set
+            {
+                this.availableSeatsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool AvailableSeatsSpecified
+        {
+            get
+            {
+                return this.availableSeatsFieldSpecified;
+            }
+            set
+            {
+                this.availableSeatsFieldSpecified = value;
             }
         }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader")]
+    public enum GeneralCourseStatus
+    {
+        
+        /// <remarks/>
+        Planning,
+        
+        /// <remarks/>
+        booked,
+        
+        /// <remarks/>
+        Cancelled,
+        
+        /// <remarks/>
+        Completed,
+        
+        /// <remarks/>
+        Launched,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader")]
     public partial class CourseHeader_Filter
@@ -790,7 +1420,7 @@ namespace CourseHeader_WebService
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader")]
     public enum CourseHeader_Fields
     {
@@ -877,17 +1507,95 @@ namespace CourseHeader_WebService
         Qty_Meeting_Times,
         
         /// <remarks/>
-        Teacher_Name,
+        CourseDepartment,
         
         /// <remarks/>
-        Teacher_Work_Phone_No,
+        StandardPricePerParticipant,
         
         /// <remarks/>
-        Teacher_Work_E_Mail,
+        PrimaryTeacherNo,
+        
+        /// <remarks/>
+        PrimaryTeacherName,
+        
+        /// <remarks/>
+        PrimaryTeacherPhoneNo,
+        
+        /// <remarks/>
+        PrimaryTeacherEmail,
+        
+        /// <remarks/>
+        InternalCourseStatus,
+        
+        /// <remarks/>
+        GeneralCourseStatus,
+        
+        /// <remarks/>
+        LessonsPerSession,
+        
+        /// <remarks/>
+        Picture,
+        
+        /// <remarks/>
+        Level,
+        
+        /// <remarks/>
+        PortalKeyWords,
+        
+        /// <remarks/>
+        courseheaderImage,
+        
+        /// <remarks/>
+        courseHeaderImageSize,
+        
+        /// <remarks/>
+        htmlStream,
+        
+        /// <remarks/>
+        htmlBinWinStream,
+        
+        /// <remarks/>
+        Image_Code,
+        
+        /// <remarks/>
+        originalImageFileName,
+        
+        /// <remarks/>
+        imageHasValueInLibrary,
+        
+        /// <remarks/>
+        htmlCourseDescription,
+        
+        /// <remarks/>
+        htmlRegistrationDescription,
+        
+        /// <remarks/>
+        htmlCatalogueDescription,
+        
+        /// <remarks/>
+        Course_Location_No,
+        
+        /// <remarks/>
+        courseLocationName,
+        
+        /// <remarks/>
+        classRoomNo,
+        
+        /// <remarks/>
+        classRoomName,
+        
+        /// <remarks/>
+        courseLevel,
+        
+        /// <remarks/>
+        courseLevelName,
+        
+        /// <remarks/>
+        AvailableSeats,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="Read", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
     public partial class ReadRequest
@@ -907,7 +1615,7 @@ namespace CourseHeader_WebService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="Read_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
     public partial class ReadResponse
@@ -927,7 +1635,7 @@ namespace CourseHeader_WebService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ReadByRecId", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
     public partial class ReadByRecIdRequest
@@ -947,7 +1655,7 @@ namespace CourseHeader_WebService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ReadByRecId_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
     public partial class ReadByRecIdResponse
@@ -967,7 +1675,7 @@ namespace CourseHeader_WebService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ReadMultiple", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
     public partial class ReadMultipleRequest
@@ -996,7 +1704,7 @@ namespace CourseHeader_WebService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ReadMultiple_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
     public partial class ReadMultipleResponse
@@ -1016,93 +1724,13 @@ namespace CourseHeader_WebService
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
-    public partial class IsUpdatedRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
-        public string Key;
-        
-        public IsUpdatedRequest()
-        {
-        }
-        
-        public IsUpdatedRequest(string Key)
-        {
-            this.Key = Key;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
-    public partial class IsUpdatedResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
-        public bool IsUpdated_Result;
-        
-        public IsUpdatedResponse()
-        {
-        }
-        
-        public IsUpdatedResponse(bool IsUpdated_Result)
-        {
-            this.IsUpdated_Result = IsUpdated_Result;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
-    public partial class GetRecIdFromKeyRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
-        public string Key;
-        
-        public GetRecIdFromKeyRequest()
-        {
-        }
-        
-        public GetRecIdFromKeyRequest(string Key)
-        {
-            this.Key = Key;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/courseheader", IsWrapped=true)]
-    public partial class GetRecIdFromKeyResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/courseheader", Order=0)]
-        public string GetRecIdFromKey_Result;
-        
-        public GetRecIdFromKeyResponse()
-        {
-        }
-        
-        public GetRecIdFromKeyResponse(string GetRecIdFromKey_Result)
-        {
-            this.GetRecIdFromKey_Result = GetRecIdFromKey_Result;
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     public interface CourseHeader_ServiceChannel : CourseHeader_WebService.CourseHeader_Service, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
     public partial class CourseHeader_ServiceClient : System.ServiceModel.ClientBase<CourseHeader_WebService.CourseHeader_Service>, CourseHeader_WebService.CourseHeader_Service
     {
         
@@ -1147,6 +1775,32 @@ namespace CourseHeader_WebService
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CourseHeader_WebService.GetRecIdFromKeyResponse> CourseHeader_WebService.CourseHeader_Service.GetRecIdFromKeyAsync(CourseHeader_WebService.GetRecIdFromKeyRequest request)
+        {
+            return base.Channel.GetRecIdFromKeyAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CourseHeader_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(string Key)
+        {
+            CourseHeader_WebService.GetRecIdFromKeyRequest inValue = new CourseHeader_WebService.GetRecIdFromKeyRequest();
+            inValue.Key = Key;
+            return ((CourseHeader_WebService.CourseHeader_Service)(this)).GetRecIdFromKeyAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CourseHeader_WebService.IsUpdatedResponse> CourseHeader_WebService.CourseHeader_Service.IsUpdatedAsync(CourseHeader_WebService.IsUpdatedRequest request)
+        {
+            return base.Channel.IsUpdatedAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CourseHeader_WebService.IsUpdatedResponse> IsUpdatedAsync(string Key)
+        {
+            CourseHeader_WebService.IsUpdatedRequest inValue = new CourseHeader_WebService.IsUpdatedRequest();
+            inValue.Key = Key;
+            return ((CourseHeader_WebService.CourseHeader_Service)(this)).IsUpdatedAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<CourseHeader_WebService.ReadResponse> CourseHeader_WebService.CourseHeader_Service.ReadAsync(CourseHeader_WebService.ReadRequest request)
         {
             return base.Channel.ReadAsync(request);
@@ -1187,32 +1841,6 @@ namespace CourseHeader_WebService
             return ((CourseHeader_WebService.CourseHeader_Service)(this)).ReadMultipleAsync(inValue);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<CourseHeader_WebService.IsUpdatedResponse> CourseHeader_WebService.CourseHeader_Service.IsUpdatedAsync(CourseHeader_WebService.IsUpdatedRequest request)
-        {
-            return base.Channel.IsUpdatedAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<CourseHeader_WebService.IsUpdatedResponse> IsUpdatedAsync(string Key)
-        {
-            CourseHeader_WebService.IsUpdatedRequest inValue = new CourseHeader_WebService.IsUpdatedRequest();
-            inValue.Key = Key;
-            return ((CourseHeader_WebService.CourseHeader_Service)(this)).IsUpdatedAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<CourseHeader_WebService.GetRecIdFromKeyResponse> CourseHeader_WebService.CourseHeader_Service.GetRecIdFromKeyAsync(CourseHeader_WebService.GetRecIdFromKeyRequest request)
-        {
-            return base.Channel.GetRecIdFromKeyAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<CourseHeader_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(string Key)
-        {
-            CourseHeader_WebService.GetRecIdFromKeyRequest inValue = new CourseHeader_WebService.GetRecIdFromKeyRequest();
-            inValue.Key = Key;
-            return ((CourseHeader_WebService.CourseHeader_Service)(this)).GetRecIdFromKeyAsync(inValue);
-        }
-        
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
@@ -1242,7 +1870,7 @@ namespace CourseHeader_WebService
         {
             if ((endpointConfiguration == EndpointConfiguration.CourseHeader_Service))
             {
-                return new System.ServiceModel.EndpointAddress("https://consulthidanapi.azure-api.net/nav/courseheader");
+                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev.azure-api.net/courseheader");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

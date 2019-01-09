@@ -1,9 +1,9 @@
 ﻿{
   "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
-  "Version": "15.0.20406.879",
+  "Version": "15.0.20628.921",
   "ExtendedData": {
-    "Uri": "C:\\ASAWSDL\\CourseHeader_Service.wsdl",
-    "Namespace": "CourseHeader_WebService",
+    "Uri": "C:\\ASAWSDL\\SalaryTeacherSpec_Service.wsdl",
+    "Namespace": "SalaryTeacherSpec_WebService",
     "SelectedAccessLevelForGeneratedClass": "Public",
     "GenerateMessageContract": false,
     "ReuseTypesinReferencedAssemblies": true,
@@ -18,7 +18,7 @@
     },
     "CheckedReferencedAssemblies": [],
     "InstanceId": null,
-    "Name": "CourseHeader_WebService",
+    "Name": "SalaryTeacherSpec_WebService",
     "Metadata": {}
   }
 }

@@ -16,6 +16,10 @@ namespace ASA.Apim.NetStdLib.UserAgentBehavior
 
         public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, IClientChannel channel)
         {
+            var localUrl = channel.LocalAddress;
+            var remoteUrl = channel.RemoteAddress;
+            //Should we change the service endpoint address according to which Environment we running on already here. We need appsettings then.
+
             if (_credentials != null)
             {
                 if (request.Properties.Count == 0 || request.Properties[HttpRequestMessageProperty.Name] == null)

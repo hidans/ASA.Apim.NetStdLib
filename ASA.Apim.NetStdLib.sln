@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASA.Apim.NetStdLib", "ASA.Apim.NetStdLib\ASA.Apim.NetStdLib.csproj", "{3577FB42-2ED4-43F9-9338-A5613F5A8EDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASA.Apim.NetStdLib", "ASA.Apim.NetStdLib\ASA.Apim.NetStdLib.csproj", "{3577FB42-2ED4-43F9-9338-A5613F5A8EDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoMineAppSettings", "..\ZoMineAppSettings\ZoMineAppSettings\ZoMineAppSettings.csproj", "{A3916E04-025A-4CB7-B361-CD03C4131C34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{3577FB42-2ED4-43F9-9338-A5613F5A8EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3577FB42-2ED4-43F9-9338-A5613F5A8EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3577FB42-2ED4-43F9-9338-A5613F5A8EDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3916E04-025A-4CB7-B361-CD03C4131C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3916E04-025A-4CB7-B361-CD03C4131C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3916E04-025A-4CB7-B361-CD03C4131C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3916E04-025A-4CB7-B361-CD03C4131C34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23B48287-D134-4A0E-8C90-01DCC279CCD6}
 	EndGlobalSection
 EndGlobal
