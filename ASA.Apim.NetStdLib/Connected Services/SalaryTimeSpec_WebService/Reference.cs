@@ -76,6 +76,10 @@ namespace SalaryTimeSpec_WebService
         
         private bool cancelledFieldSpecified;
         
+        private string salary_GUIDField;
+        
+        private string department_CodeField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public string Key
@@ -299,6 +303,34 @@ namespace SalaryTimeSpec_WebService
                 this.cancelledFieldSpecified = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public string Salary_GUID
+        {
+            get
+            {
+                return this.salary_GUIDField;
+            }
+            set
+            {
+                this.salary_GUIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public string Department_Code
+        {
+            get
+            {
+                return this.department_CodeField;
+            }
+            set
+            {
+                this.department_CodeField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -392,6 +424,12 @@ namespace SalaryTimeSpec_WebService
         
         /// <remarks/>
         Cancelled,
+        
+        /// <remarks/>
+        Salary_GUID,
+        
+        /// <remarks/>
+        Department_Code,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]

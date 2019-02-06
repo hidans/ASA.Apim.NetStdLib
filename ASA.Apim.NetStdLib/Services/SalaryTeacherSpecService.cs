@@ -37,9 +37,9 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         /// <summary>
-        /// Get CoursePriceType with details from Navision, using CoursePriceType_Filter.
+        /// Get SalaryTeacherSpecs with details from Navision, using SalaryTeacherSpec_Filter.
         /// </summary>
-        /// <param name="filter">An instance of CoursePriceType_Filter.</param>
+        /// <param name="filter">An instance of SalaryTeacherSpec_Filter.</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
         public async Task<IEnumerable<SalaryTeacherSpec>> GetSalaryTeacherSpecs(string accountFromHeader, SalaryTeacherSpec_Filter[] filter, int size = 0)
