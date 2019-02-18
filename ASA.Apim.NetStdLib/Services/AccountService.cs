@@ -47,6 +47,7 @@ namespace ASA.Apim.NetStdLib.Services
         /// <returns></returns>
         public async Task<IEnumerable<SalaryGLAccount>> GetSalaryGLAccounts(string accountFromHeader, SalaryGLAccount_Filter[] filter, int size = 0)
         {
+
             return await GetSalaryGLAccountsAsync(accountFromHeader, filter, size);
         }
 
