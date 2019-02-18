@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using CourseEnrollments_WebService;
-using ZoMineAppSettings;
+using EnvironmentAppsettings;
 
 namespace ASA.Apim.NetStdLib.Services
 {

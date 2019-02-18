@@ -1,5 +1,5 @@
 ﻿using ASA.Apim.NetStdLib.Security;
-using ZoMineAppSettings;
+using EnvironmentAppsettings;
 
 namespace ASA.Apim.NetStdLib.Services
 {

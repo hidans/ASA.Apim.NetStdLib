@@ -1,6 +1,6 @@
 ﻿using ASA.Apim.NetStdLib.Helpers;
 using ASA.Apim.NetStdLib.Security;
-using ZoMineAppSettings;
+using EnvironmentAppsettings;
 using CourseType_WebService;
 using System;
 using System.Collections.Generic;

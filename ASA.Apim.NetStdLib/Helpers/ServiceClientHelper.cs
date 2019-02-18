@@ -4,7 +4,7 @@ using CourseHeader_WebService;
 using CourseLocationList_WebService;
 using System.ServiceModel;
 using Teacher_WebService;
-using ZoMineAppSettings;
+using EnvironmentAppsettings;
 
 namespace ASA.Apim.NetStdLib.Helpers
 {

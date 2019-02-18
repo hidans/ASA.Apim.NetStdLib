@@ -4,7 +4,7 @@ using ASA.Apim.NetStdLib.Security;
 using System;
 using System.Threading.Tasks;
 using WebshopBasketManagement_WebService;
-using ZoMineAppSettings;
+using EnvironmentAppsettings;
 
 namespace ASA.Apim.NetStdLib.Services
 {

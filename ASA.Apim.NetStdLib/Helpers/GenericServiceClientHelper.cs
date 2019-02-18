@@ -2,7 +2,7 @@
 using ASA.Apim.NetStdLib.UserAgentBehavior;
 using System;
 using System.ServiceModel;
-using ZoMineAppSettings;
+using EnvironmentAppsettings;
 
 namespace ASA.Apim.NetStdLib.Helpers
 {
