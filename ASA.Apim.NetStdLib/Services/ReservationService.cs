@@ -27,7 +27,7 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="portalOrderID">The Id of the Portal from which the request is made. [Required]</param>
         /// <param name="courseHeaderID">The Id of the CourseHeader. [Required]</param>
         /// <param name="participantID">The Id of the Participant. [Required]</param>
-        /// /// <param name="portalQuantity">The number of reservation on the specific course number.</param>
+        /// <param name="portalQuantity">The number of reservation on the specific course number.</param>
         /// <returns>Return ReservationResult containing ReturnResult that equals 0 for OK, 1 for Course not available and 255 for Could not create reservation. Reason unknown </returns>
         public async Task<ReservationResult> ReserveCourseEnrollment(string portalOrderID, string courseHeaderID, int portalQuantity = 1)
         {
