@@ -3,8 +3,6 @@ using ASA.Apim.NetStdLib.Security;
 using EnvironmentAppsettings;
 using SalarySettlement_WebService;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ASA.Apim.NetStdLib.Services

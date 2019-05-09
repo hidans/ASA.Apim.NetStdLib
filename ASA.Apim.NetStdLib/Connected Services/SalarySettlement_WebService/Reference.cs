@@ -175,6 +175,7 @@ namespace SalarySettlement_WebService
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        [System.ComponentModel.DefaultValueAttribute("{00000000-0000-0000-0000-000000000000}")]
         public string SalaryGUID
         {
             get
@@ -189,6 +190,7 @@ namespace SalarySettlement_WebService
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.ComponentModel.DefaultValueAttribute(typeof(decimal), "0")]
         public decimal Amount
         {
             get
@@ -372,7 +374,8 @@ namespace SalarySettlement_WebService
         {
             if ((endpointConfiguration == EndpointConfiguration.SalarySettlement_Service))
             {
-                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-test.azure-api.net/salarysettlement");
+                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev-northeurope-01.regional.azure-api.net/salarysett" +
+                        "lement");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

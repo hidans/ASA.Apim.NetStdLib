@@ -54,6 +54,18 @@ namespace SalaryTimeSpec_WebService
         
         private string course_Header_DescriptionField;
         
+        private System.DateTime dateField;
+        
+        private bool dateFieldSpecified;
+        
+        private System.DateTime from_TimeField;
+        
+        private bool from_TimeFieldSpecified;
+        
+        private System.DateTime to_TimeField;
+        
+        private bool to_TimeFieldSpecified;
+        
         private System.DateTime from_DateTimeField;
         
         private bool from_DateTimeFieldSpecified;
@@ -151,7 +163,91 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date", Order=4)]
+        public System.DateTime Date
+        {
+            get
+            {
+                return this.dateField;
+            }
+            set
+            {
+                this.dateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool DateSpecified
+        {
+            get
+            {
+                return this.dateFieldSpecified;
+            }
+            set
+            {
+                this.dateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="time", Order=5)]
+        public System.DateTime From_Time
+        {
+            get
+            {
+                return this.from_TimeField;
+            }
+            set
+            {
+                this.from_TimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool From_TimeSpecified
+        {
+            get
+            {
+                return this.from_TimeFieldSpecified;
+            }
+            set
+            {
+                this.from_TimeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="time", Order=6)]
+        public System.DateTime To_Time
+        {
+            get
+            {
+                return this.to_TimeField;
+            }
+            set
+            {
+                this.to_TimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool To_TimeSpecified
+        {
+            get
+            {
+                return this.to_TimeFieldSpecified;
+            }
+            set
+            {
+                this.to_TimeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public System.DateTime From_DateTime
         {
             get
@@ -179,7 +275,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public System.DateTime To_DateTime
         {
             get
@@ -207,7 +303,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public string Course_Header_No
         {
             get
@@ -221,7 +317,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public string Course_Type
         {
             get
@@ -235,7 +331,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public string Time_Specification
         {
             get
@@ -249,7 +345,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool Salary_Settled
         {
             get
@@ -277,7 +373,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public Cancelled Cancelled
         {
             get
@@ -305,7 +401,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public string Salary_GUID
         {
             get
@@ -319,7 +415,7 @@ namespace SalaryTimeSpec_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public string Department_Code
         {
             get
@@ -403,6 +499,15 @@ namespace SalaryTimeSpec_WebService
         
         /// <remarks/>
         Course_Header_Description,
+        
+        /// <remarks/>
+        Date,
+        
+        /// <remarks/>
+        From_Time,
+        
+        /// <remarks/>
+        To_Time,
         
         /// <remarks/>
         From_DateTime,
@@ -788,7 +893,8 @@ namespace SalaryTimeSpec_WebService
         {
             if ((endpointConfiguration == EndpointConfiguration.SalaryTimeSpec_Service))
             {
-                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev.azure-api.net/salarytimespec");
+                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev-northeurope-01.regional.azure-api.net/salarytime" +
+                        "spec");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
