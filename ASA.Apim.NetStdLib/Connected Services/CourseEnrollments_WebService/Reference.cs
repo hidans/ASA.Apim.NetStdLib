@@ -107,6 +107,8 @@ namespace CourseEnrollments_WebService
         
         private string cityField;
         
+        private string municipalityCodeField;
+        
         private string countryCodeField;
         
         private string phoneNoField;
@@ -141,6 +143,8 @@ namespace CourseEnrollments_WebService
         
         private bool emailPermissionField;
         
+        private bool waitingListField;
+        
         public CourseEnrollment()
         {
             this.participantEntryNoField = 0;
@@ -150,6 +154,7 @@ namespace CourseEnrollments_WebService
             this.quantityField = 0;
             this.sMSPermissionField = false;
             this.emailPermissionField = false;
+            this.waitingListField = false;
         }
         
         /// <remarks/>
@@ -424,6 +429,20 @@ namespace CourseEnrollments_WebService
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        public string MunicipalityCode
+        {
+            get
+            {
+                return this.municipalityCodeField;
+            }
+            set
+            {
+                this.municipalityCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public string CountryCode
         {
             get
@@ -437,7 +456,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public string PhoneNo
         {
             get
@@ -451,7 +470,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public string MobilePhoneNo
         {
             get
@@ -465,7 +484,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public string Email
         {
             get
@@ -479,7 +498,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public string SocialSecurityNo
         {
             get
@@ -493,7 +512,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
         public string ParticipantBillTo
         {
             get
@@ -507,7 +526,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
         public string EANno
         {
             get
@@ -521,7 +540,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
         public string PortalOrderId
         {
             get
@@ -535,7 +554,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
         public string FirstName
         {
             get
@@ -549,7 +568,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
         public string SurName
         {
             get
@@ -563,7 +582,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
         public string PriceType
         {
             get
@@ -577,7 +596,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
         public string ADUserID
         {
             get
@@ -591,7 +610,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
         [System.ComponentModel.DefaultValueAttribute(0)]
         public int Quantity
         {
@@ -606,7 +625,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
         public string DiscountCode
         {
             get
@@ -620,7 +639,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
         public string VATNO
         {
             get
@@ -634,7 +653,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool SMSPermission
         {
@@ -649,7 +668,7 @@ namespace CourseEnrollments_WebService
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool EmailPermission
         {
@@ -660,6 +679,21 @@ namespace CourseEnrollments_WebService
             set
             {
                 this.emailPermissionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool WaitingList
+        {
+            get
+            {
+                return this.waitingListField;
+            }
+            set
+            {
+                this.waitingListField = value;
             }
         }
     }
@@ -786,7 +820,8 @@ namespace CourseEnrollments_WebService
         {
             if ((endpointConfiguration == EndpointConfiguration.CourseEnrollments_Service))
             {
-                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev.azure-api.net/courseenrollments");
+                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev-northeurope-01.regional.azure-api.net/courseenro" +
+                        "llments");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
