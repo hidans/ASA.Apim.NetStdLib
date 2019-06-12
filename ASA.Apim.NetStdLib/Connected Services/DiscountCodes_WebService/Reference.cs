@@ -897,7 +897,8 @@ namespace DiscountCodes_WebService
         {
             if ((endpointConfiguration == EndpointConfiguration.DiscountCodes_Service))
             {
-                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-test-northeurope-01.regional.azure-api.net/");
+                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev-northeurope-01.regional.azure-api.net/discountco" +
+                        "des");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

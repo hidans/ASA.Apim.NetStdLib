@@ -23,10 +23,10 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<courseType>> GetCourseTypeById(string filter = "", int size = 0)
+        public async Task<IEnumerable<courseType>> GetCourseTypeById(string accountFromHeader, string filter = "", int size = 0)
         {
             var CourseTypefilter = SingleCourseTypeFilter(filter, courseType_Fields.No);
-            return await GetCourseTypesAsync(CourseTypefilter, size);
+            return await GetCourseTypesAsync(accountFromHeader, CourseTypefilter, size);
         }
 
         // <summary>
@@ -47,15 +47,18 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">An instance of CourseType_Filter.</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<courseType>> GetCourseTypes(courseType_Filter[] filter, int size = 0)
+        public async Task<IEnumerable<courseType>> GetCourseTypes(string accountFromHeader, courseType_Filter[] filter, int size = 0)
         {
-            return await GetCourseTypesAsync(filter, size);
+            return await GetCourseTypesAsync(accountFromHeader, filter, size);
         }
 
-        internal async Task<IEnumerable<courseType>> GetCourseTypesAsync(courseType_Filter[] filter, int size)
+        internal async Task<IEnumerable<courseType>> GetCourseTypesAsync(string accountFromHeader, courseType_Filter[] filter, int size)
         {
             try
             {
+                //Workaround: AccountKey in Credentials must be provided as a request header.
+                Credentials.AccountKey = accountFromHeader;
+
                 var genericServiceClientHelper = new GenericServiceClientHelper<CourseType_ServiceClient, CourseType_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 

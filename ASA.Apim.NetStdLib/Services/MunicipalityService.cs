@@ -22,10 +22,10 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Municipality>> GetMunicipalityById(string filter = "", int size = 0)
+        public async Task<IEnumerable<Municipality>> GetMunicipalityById(string accountFromHeader, string filter = "", int size = 0)
         {
-            var Municipalityfilter = SingleMunicipalityFilter(filter, Municipality_Fields.Municipal_Code);
-            return await GetMunicipalitiesAsync(Municipalityfilter, size);
+            var Municipalityfilter = SingleMunicipalityFilter("", Municipality_Fields.Post_Code);
+            return (await GetMunicipalitiesAsync(accountFromHeader, Municipalityfilter, size)).Where(m => m.Post_Code == filter);
         }
 
         // <summary>
@@ -46,15 +46,18 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">An instance of Municipality_Filter.</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Municipality>> GetMunicipalities(Municipality_Filter[] filter, int size = 0)
+        public async Task<IEnumerable<Municipality>> GetMunicipalities(string accountFromHeader, Municipality_Filter[] filter, int size = 0)
         {
-            return await GetMunicipalitiesAsync(filter, size);
+            return await GetMunicipalitiesAsync(accountFromHeader, filter, size);
         }
 
-        internal async Task<IEnumerable<Municipality>> GetMunicipalitiesAsync(Municipality_Filter[] filter, int size)
+        internal async Task<IEnumerable<Municipality>> GetMunicipalitiesAsync(string accountFromHeader, Municipality_Filter[] filter, int size)
         {
             try
             {
+                // Workaround: AccountKey in Credentials must be provided as a request header.
+                Credentials.AccountKey = accountFromHeader;
+
                 var genericServiceClientHelper = new GenericServiceClientHelper<Municipality_ServiceClient, Municipality_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 
