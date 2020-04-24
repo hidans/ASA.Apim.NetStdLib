@@ -1,6 +1,9 @@
-﻿using ASA.Apim.NetStdLib.Helpers;
+﻿using ASA.Apim.NetStdLib.Entities;
+using ASA.Apim.NetStdLib.Helpers;
 using ASA.Apim.NetStdLib.Security;
+using AutoMapper;
 using CourseHeader_WebService;
+using Department_WebService;
 using EnvironmentAppsettings;
 using System;
 using System.Collections.Generic;
@@ -11,9 +14,8 @@ namespace ASA.Apim.NetStdLib.Services
 {
     public class CourseService: BaseService
     {
-        public CourseService(ApiManagerCredentials credentials, AppSettings appSettings):base(credentials, appSettings)
+        public CourseService(ApiManagerCredentials credentials, AppSettings appSettings) :base(credentials, appSettings)
         {
-           
         }
 
         #region CourseHeader
@@ -53,18 +55,42 @@ namespace ASA.Apim.NetStdLib.Services
         #endregion
 
         #region CourseHeaders
-        public IEnumerable<CourseHeader> GetCourseHeadersById(string accountFromHeader, string filter = "", int size = 0)
+        /// <summary>
+        /// Get CourseHeaders with details from Navision, using Course number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeader>> GetCourseHeadersById(string accountFromHeader, string filter = "", int size = 0)
         {
+            if (string.IsNullOrEmpty(filter))
+            {
+                //throw new Exception("Filter cannot be null or empty string.");
+                return new List<CourseHeader>();
+            }
+
             var CourseHeaderfilter = SingleCourseHeaderFilter(filter, CourseHeader_Fields.No);
-            var task = GetCourseHeaders(accountFromHeader, CourseHeaderfilter, size);
-            return task.Result;
-        }
-        public IEnumerable<CourseHeader> GetCourseHeaders(string accountFromHeader, int size = 0)
-        {
-            return GetCourseHeadersById(accountFromHeader, "");
+            var task = await GetCourseHeaders(accountFromHeader, CourseHeaderfilter, size);
+            return task;
         }
 
+        //public async Task<IEnumerable<CourseHeader>> GetCourseHeaders(string accountFromHeader, int size = 0)
+        //{
+        //    return await GetCourseHeadersById(accountFromHeader, "");
+        //}
+
+        /// <summary>
+        /// Get CourseHeaders with details from Navision, using CourseHeader_Filter.
+        /// </summary>
+        /// <param name="filter">An instance of CourseHeader_Filter.</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
         public async Task<IEnumerable<CourseHeader>> GetCourseHeaders(string accountFromHeader, CourseHeader_Filter[] filter, int size = 0)
+        {
+            return await GetCourseHeadersAsync(accountFromHeader, filter, size);
+        }
+
+        public async Task<IEnumerable<CourseHeader>> GetCourseHeadersAsync(string accountFromHeader, CourseHeader_Filter[] filter, int size = 0)
         {
             try
             {
@@ -100,6 +126,214 @@ namespace ASA.Apim.NetStdLib.Services
                     Criteria = criteria
                 }
             };
+        }
+
+        internal CourseHeader_Filter[] ExtendCourseHeaderFilter(CourseHeader_Filter[] filter, string criteria, CourseHeader_Fields field)
+        {
+            return filter.Concat(SingleCourseHeaderFilter(criteria, field)).ToArray();
+        }
+        #endregion
+
+        #region CourseHeadersWithDepartments
+        /// <summary>
+        /// Get CourseHeaders with Departments from Navision, using Department Number as filter.
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountKey">Account key from Navision. [Required]</param>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartmentByCourseDepartment(string filter, string accountFromHeader, int size = 0)
+        {
+            if (string.IsNullOrEmpty(filter))
+            {
+                return new List<CourseHeaderWithDepartment>();
+            }
+
+            var CourseHeaderfilter = SingleCourseHeaderFilter(filter, CourseHeader_Fields.CourseDepartment);
+            return await GetCourseHeadersWithDepartments(CourseHeaderfilter, accountFromHeader, size);
+        }
+
+        /// <summary>
+        /// Get all CourseHeaders with Departments from Navision.
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountKey">Account key from Navision. [Required]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartmentByCourseDepartment(string accountFromHeader, int size = 0)
+        {
+            var CourseHeaderfilter = SingleCourseHeaderFilter("", CourseHeader_Fields.CourseDepartment);
+            return await GetCourseHeadersWithDepartments(CourseHeaderfilter, accountFromHeader, size);
+        }
+
+        /// <summary>
+        /// Get CourseHeaders with Departments from Navision, using Course Number
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountKey">Account key from Navision. [Required]</param>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartmentsById(string accountFromHeader, string filter, int size = 0)
+        {
+            if (string.IsNullOrEmpty(filter))
+            {
+                return new List<CourseHeaderWithDepartment>();
+            }
+
+            var CourseHeaderfilter = SingleCourseHeaderFilter(filter, CourseHeader_Fields.No);
+            return await GetCourseHeadersWithDepartments(CourseHeaderfilter, accountFromHeader, size);
+        }
+
+        /// <summary>
+        /// Get CourseHeaders with Departments from Navision, using Course Number and department.
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountKey">Account key from Navision. [Required]</param>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Required]</param>
+        /// <param name="department">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Required]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartmentsByIdAndDepartment(string accountFromheader, string filter, string department, int size = 0)
+        {
+            if (string.IsNullOrEmpty(filter) || string.IsNullOrEmpty(department))
+            {
+                return new List<CourseHeaderWithDepartment>();
+            }
+
+            var courseHeaderfilter = SingleCourseHeaderFilter(filter, CourseHeader_Fields.No);
+            var extendedCourseHeaderFilter = ExtendCourseHeaderFilter(courseHeaderfilter, department, CourseHeader_Fields.CourseDepartment);
+            return await GetCourseHeadersWithDepartments(extendedCourseHeaderFilter, accountFromheader, size);
+        }
+
+        /// <summary>
+        /// Get all CourseHeaders with Departments from Navision.
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountKey">Account key from Navision. [Required]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartmentsById(string accountFromHeader, int size = 0)
+        {
+            var CourseHeaderfilter = SingleCourseHeaderFilter("", CourseHeader_Fields.No);
+            return await GetCourseHeadersWithDepartments(CourseHeaderfilter, accountFromHeader, size);
+        }
+
+        /// <summary>
+        /// Get all CourseHeaders with Departments from Navision
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountKey">Account key from Navision. [Required]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartments(string accountFromHeader, int size = 0)
+        {
+            return await GetCourseHeadersWithDepartmentsById(accountFromHeader);
+        }
+
+        /// <summary>
+        /// Get CourseHeaders with Departments from Navision, using CourseHeader_Filter.
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountKey">Account key from Navision. [Required]</param>
+        /// <param name="filter">An instance of CourseHeader_Filter.</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartments(CourseHeader_Filter[] filter, string accountFromHeader, int size = 0)
+        {
+
+            return await GetCourseHeadersWithDepartments(accountFromHeader,filter, size);
+        }
+
+        internal async Task<IEnumerable<CourseHeaderWithDepartment>> GetCourseHeadersWithDepartments(string accountFromHeader, CourseHeader_Filter[] filter, int size)
+        {
+            var list = new List<CourseHeaderWithDepartment>();
+            try
+            {
+                //Workaround: AccountKey in Credentials must be provided as a request header.
+                Credentials.AccountKey = accountFromHeader;
+
+                var courseHeaders = await GetCourseHeaders(accountFromHeader, filter, size);
+                if (courseHeaders != null && courseHeaders.Any())
+                {
+                    List<Department> departments = null;
+
+                    var courseDepartments = courseHeaders.Select(x => x.CourseDepartment).Where(x => x != null).Distinct();
+                    var criteria = Tools.GetCriteria(courseDepartments);
+                    if (!string.IsNullOrEmpty(criteria))
+                    {
+                        var departmentService = new DepartmentService(Credentials, AppSettings);
+                        departments = (await departmentService.GetDepartmentById(accountFromHeader, criteria)).ToList();
+                    }
+
+                    if (departments == null)
+                    {
+                        departments = new List<Department>();
+                    }
+
+                    foreach (var courseHeader in courseHeaders.Where(x => (x != null && !string.IsNullOrEmpty(x.CourseDepartment))).ToList())
+                    {
+                        var schooldepartments = departments.Any() ? departments.Where(x => x.Primary_Key.Equals(courseHeader.CourseDepartment)) : new List<Department>();
+                        list.Add(new CourseHeaderWithDepartment(courseHeader,schooldepartments.FirstOrDefault()));
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception($"Error in GetCourseHeadersWithDepartments(): {exception.Message}");
+            }
+
+            return list;
+        }
+        #endregion
+
+        #region CourseDepartmentRelation
+        public async Task<List<CourseDepartmentRelation>> GetCourseDepartmentRelationsAsync(string accountFromHeader, List<CourseHeader> courseHeaders)
+        {
+            var results = new List<CourseDepartmentRelation>();
+            try
+            {
+                //Workaround: AccountKey in Credentials must be provided as a request header.
+                Credentials.AccountKey = accountFromHeader;
+
+                if (courseHeaders != null && courseHeaders.Any())
+                {
+                    List<Department> departments = null;
+
+                    var courseDepartments = courseHeaders.Select(x => x.CourseDepartment).Where(x => x != null).Distinct();
+                    var criteria = Tools.GetCriteria(courseDepartments);
+                    if (!string.IsNullOrEmpty(criteria))
+                    {
+                        var departmentService = new DepartmentService(Credentials, AppSettings);
+                        departments = (await departmentService.GetDepartmentById(accountFromHeader, criteria)).ToList();
+                    }
+
+                    if (departments == null)
+                    {
+                        departments = new List<Department>();
+                    }
+
+                    foreach (var courseHeader in courseHeaders.Where(x => (x != null && !string.IsNullOrEmpty(x.CourseDepartment))).ToList())
+                    {
+                        var schooldepartments = departments.Any() ? departments.Where(x => x.Primary_Key.Equals(courseHeader.CourseDepartment)) : new List<Department>();
+                        var courseDepartmentRelation = new CourseDepartmentRelation() 
+                        { 
+                            CourseNo = courseHeader.No, 
+                            DepartmentCode = courseHeader.CourseDepartment, 
+                            DepartmentName = schooldepartments.FirstOrDefault().Name 
+                        };
+                        
+                        results.Add(courseDepartmentRelation);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception($"Error in GetCourseDepartmentRelationsAsync(): {exception.Message}");
+            }
+
+            return results;
         }
         #endregion
     }
