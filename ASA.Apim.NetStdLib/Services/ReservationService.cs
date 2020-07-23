@@ -45,7 +45,7 @@ namespace ASA.Apim.NetStdLib.Services
 
                 var genericServiceClientHelper = new GenericServiceClientHelper<WebshopBasketManagement_ServiceClient, WebshopBasketManagement_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
-                var response = service.ReserveCourseEnrollmentAsync(portalOrderID, courseHeaderID, string.Empty, backendReservationID, reservationTimeout, portalQuantity).Result;
+                var response = await service.ReserveCourseEnrollmentAsync(portalOrderID, courseHeaderID, string.Empty, backendReservationID, reservationTimeout, portalQuantity);
                 result.ReturnResult = response.Body.return_value;
                 result.BackendReservationID = response.Body.backendReservationID;
                 result.ReservationTimeout = response.Body.reservationTimeout;

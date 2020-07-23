@@ -30,7 +30,7 @@ namespace ASA.Apim.NetStdLib.Services
 
                 var genericServiceClientHelper = new GenericServiceClientHelper<SalarySettlement_ServiceClient, SalarySettlement_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
-                var response = service.SalarySettleAsync(request).Result;
+                var response = await service.SalarySettleAsync(request);
                 
                 await service.CloseAsync();
 

@@ -36,6 +36,12 @@ namespace ASA.Apim.NetStdLib.Services
             return await GetSalaryTeacherSpecs(accountFromHeader, SalaryTeacherSpecfilter, size);
         }
 
+        //public async Task<IEnumerable<SalaryTeacherSpec>> GetSalaryTeacherSpecs(string accountFromHeader, string filter = "", int size = 0)
+        //{
+        //   var SalaryTeacherSpecfilter = SingleSalaryTeacherSpecFilter(filter, SalaryTeacherSpec_Fields.No);
+        //    return await GetSalaryTeacherSpecs(accountFromHeader, SalaryTeacherSpecfilter, size);
+        //}
+
         /// <summary>
         /// Get SalaryTeacherSpecs with details from Navision, using SalaryTeacherSpec_Filter.
         /// </summary>
@@ -57,7 +63,7 @@ namespace ASA.Apim.NetStdLib.Services
                 var genericServiceClientHelper = new GenericServiceClientHelper<SalaryTeacherSpec_ServiceClient, SalaryTeacherSpec_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 
-                var response = service.ReadMultipleAsync(filter, "", size).Result;
+                var response = await service.ReadMultipleAsync(filter, "", size);
                 await service.CloseAsync();
                 return response.ReadMultiple_Result.ToList();
             }

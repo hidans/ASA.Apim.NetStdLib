@@ -41,7 +41,7 @@ namespace ASA.Apim.NetStdLib.Services
                 var genericServiceClientHelper = new GenericServiceClientHelper<CourseHeader_ServiceClient, CourseHeader_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 
-                var response = service.ReadAsync(courseNumber).Result;
+                var response = await service.ReadAsync(courseNumber);
                 await service.CloseAsync();
 
                 return response.CourseHeader;
@@ -105,7 +105,6 @@ namespace ASA.Apim.NetStdLib.Services
                 var service = genericServiceClientHelper.GetServiceClient();
                 #endregion
 
-                //var response = service.ReadMultipleAsync(filter, "", size).Result;//TODO: Replace with below also in other services
                 var response = await service.ReadMultipleAsync(filter, "", size);
                 await service.CloseAsync();
                 return response.ReadMultiple_Result.ToList();

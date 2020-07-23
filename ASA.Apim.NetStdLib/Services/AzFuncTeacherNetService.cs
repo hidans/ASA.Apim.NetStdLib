@@ -1,18 +1,29 @@
 ﻿using ASA.Apim.NetStdLib.Helpers;
 using ASA.Apim.NetStdLib.Security;
 using Department_WebService;
+using EnvironmentAppsettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EnvironmentAppsettings;
 
 namespace ASA.Apim.NetStdLib.Services
 {
-    public class DepartmentService: BaseService
+    public class AzFuncTeacherNetService
     {
-        public DepartmentService(ApiManagerCredentials credentials, AppSettings appSettings) : base(credentials, appSettings) {}
+        protected AppSettings AppSettings { get; set; }
+        protected ApiManagerCredentials Credentials { get; }
+        public AzFuncTeacherNetService(string apimUrl, string subscriptionKey)
+        {
+            AppSettings = new AppSettings()
+            {
+                ApimUrl = apimUrl,
+                SubscriptionKey = subscriptionKey
+            };
+
+            Credentials = new ApiManagerCredentials() { SubscriptionKey = subscriptionKey };
+        }
 
         #region Department
         /// <summary>
@@ -35,15 +46,14 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         /// <summary>
-        /// Get Schools with details from Navision.
+        /// Get Schools with details from Navision
         /// </summary>
-        /// <param name="accountFromHeader">Account</param>
+        /// <param name="accountFromHeader">Account key from Navision. [Required]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Department>> GetSchools(string accountFromHeader, int size = 0)
+        public async Task<IEnumerable<Department>> GetSchool(string accountFromHeader, int size = 0)
         {
-            var Departmentfilter = SingleDepartmentFilter("''", Department_Fields.Primary_Key);
-            return await GetDepartments(accountFromHeader, Departmentfilter, size);
+            return await GetDepartmentById(accountFromHeader, "''");
         }
 
         public async Task<IEnumerable<Department>> GetDepartments(string accountFromHeader, int size = 0)
@@ -93,7 +103,6 @@ namespace ASA.Apim.NetStdLib.Services
                 }
             };
         }
-
         #endregion
     }
 }

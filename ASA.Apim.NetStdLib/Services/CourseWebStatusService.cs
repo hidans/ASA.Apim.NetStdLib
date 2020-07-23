@@ -30,7 +30,7 @@ namespace ASA.Apim.NetStdLib.Services
                 var genericServiceClientHelper = new GenericServiceClientHelper<CourseWebStatus_ServiceClient, CourseWebStatus_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 
-                var response = service.GetNavOrderIdAsync(portalOrderId).Result;
+                var response = await service.GetNavOrderIdAsync(portalOrderId);
                 await service.CloseAsync();
                 return response.return_value;
             }
@@ -55,7 +55,7 @@ namespace ASA.Apim.NetStdLib.Services
                 var genericServiceClientHelper = new GenericServiceClientHelper<CourseWebStatus_ServiceClient, CourseWebStatus_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 
-                var response = service.GetOrderStatusAsync(portalOrderId, navOrderId, errorMessage).Result;
+                var response = await service.GetOrderStatusAsync(portalOrderId, navOrderId, errorMessage);
                 await service.CloseAsync();
                 return response;
             }

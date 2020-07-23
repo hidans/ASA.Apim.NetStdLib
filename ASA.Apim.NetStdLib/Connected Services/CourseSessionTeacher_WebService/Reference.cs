@@ -16,6 +16,14 @@ namespace CourseSessionTeacher_WebService
     public interface CourseSessionTeacher_Service
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/coursesessionteacher:GetRecIdFromKey", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(CourseSessionTeacher_WebService.GetRecIdFromKeyRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/coursesessionteacher:IsUpdated", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.IsUpdatedResponse> IsUpdatedAsync(CourseSessionTeacher_WebService.IsUpdatedRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/coursesessionteacher:Read", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<CourseSessionTeacher_WebService.ReadResponse> ReadAsync(CourseSessionTeacher_WebService.ReadRequest request);
@@ -27,14 +35,86 @@ namespace CourseSessionTeacher_WebService
         [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/coursesessionteacher:ReadMultiple", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<CourseSessionTeacher_WebService.ReadMultipleResponse> ReadMultipleAsync(CourseSessionTeacher_WebService.ReadMultipleRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
+    public partial class GetRecIdFromKeyRequest
+    {
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/coursesessionteacher:IsUpdated", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.IsUpdatedResponse> IsUpdatedAsync(CourseSessionTeacher_WebService.IsUpdatedRequest request);
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
+        public string Key;
         
-        [System.ServiceModel.OperationContractAttribute(Action="urn:microsoft-dynamics-schemas/page/coursesessionteacher:GetRecIdFromKey", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(CourseSessionTeacher_WebService.GetRecIdFromKeyRequest request);
+        public GetRecIdFromKeyRequest()
+        {
+        }
+        
+        public GetRecIdFromKeyRequest(string Key)
+        {
+            this.Key = Key;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
+    public partial class GetRecIdFromKeyResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
+        public string GetRecIdFromKey_Result;
+        
+        public GetRecIdFromKeyResponse()
+        {
+        }
+        
+        public GetRecIdFromKeyResponse(string GetRecIdFromKey_Result)
+        {
+            this.GetRecIdFromKey_Result = GetRecIdFromKey_Result;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
+    public partial class IsUpdatedRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
+        public string Key;
+        
+        public IsUpdatedRequest()
+        {
+        }
+        
+        public IsUpdatedRequest(string Key)
+        {
+            this.Key = Key;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
+    public partial class IsUpdatedResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
+        public bool IsUpdated_Result;
+        
+        public IsUpdatedResponse()
+        {
+        }
+        
+        public IsUpdatedResponse(bool IsUpdated_Result)
+        {
+            this.IsUpdated_Result = IsUpdated_Result;
+        }
     }
     
     /// <remarks/>
@@ -110,13 +190,25 @@ namespace CourseSessionTeacher_WebService
         
         private bool salary_SettledFieldSpecified;
         
-        private Course_Status course_StatusField;
+        private Course_Header_Status course_Header_StatusField;
         
-        private bool course_StatusFieldSpecified;
+        private bool course_Header_StatusFieldSpecified;
         
         private int course_Booking_Entry_NoField;
         
         private bool course_Booking_Entry_NoFieldSpecified;
+        
+        private decimal salary_RateField;
+        
+        private bool salary_RateFieldSpecified;
+        
+        private decimal salary_AmountField;
+        
+        private bool salary_AmountFieldSpecified;
+        
+        private bool special_RateField;
+        
+        private bool special_RateFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -582,29 +674,29 @@ namespace CourseSessionTeacher_WebService
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=20)]
-        public Course_Status Course_Status
+        public Course_Header_Status Course_Header_Status
         {
             get
             {
-                return this.course_StatusField;
+                return this.course_Header_StatusField;
             }
             set
             {
-                this.course_StatusField = value;
+                this.course_Header_StatusField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool Course_StatusSpecified
+        public bool Course_Header_StatusSpecified
         {
             get
             {
-                return this.course_StatusFieldSpecified;
+                return this.course_Header_StatusFieldSpecified;
             }
             set
             {
-                this.course_StatusFieldSpecified = value;
+                this.course_Header_StatusFieldSpecified = value;
             }
         }
         
@@ -633,6 +725,90 @@ namespace CourseSessionTeacher_WebService
             set
             {
                 this.course_Booking_Entry_NoFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        public decimal Salary_Rate
+        {
+            get
+            {
+                return this.salary_RateField;
+            }
+            set
+            {
+                this.salary_RateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Salary_RateSpecified
+        {
+            get
+            {
+                return this.salary_RateFieldSpecified;
+            }
+            set
+            {
+                this.salary_RateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        public decimal Salary_Amount
+        {
+            get
+            {
+                return this.salary_AmountField;
+            }
+            set
+            {
+                this.salary_AmountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Salary_AmountSpecified
+        {
+            get
+            {
+                return this.salary_AmountFieldSpecified;
+            }
+            set
+            {
+                this.salary_AmountFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        public bool Special_Rate
+        {
+            get
+            {
+                return this.special_RateField;
+            }
+            set
+            {
+                this.special_RateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool Special_RateSpecified
+        {
+            get
+            {
+                return this.special_RateFieldSpecified;
+            }
+            set
+            {
+                this.special_RateFieldSpecified = value;
             }
         }
     }
@@ -668,7 +844,7 @@ namespace CourseSessionTeacher_WebService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher")]
-    public enum Course_Status
+    public enum Course_Header_Status
     {
         
         /// <remarks/>
@@ -791,10 +967,19 @@ namespace CourseSessionTeacher_WebService
         Salary_Settled,
         
         /// <remarks/>
-        Course_Status,
+        Course_Header_Status,
         
         /// <remarks/>
         Course_Booking_Entry_No,
+        
+        /// <remarks/>
+        Salary_Rate,
+        
+        /// <remarks/>
+        Salary_Amount,
+        
+        /// <remarks/>
+        Special_Rate,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -931,86 +1116,6 @@ namespace CourseSessionTeacher_WebService
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
-    public partial class IsUpdatedRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
-        public string Key;
-        
-        public IsUpdatedRequest()
-        {
-        }
-        
-        public IsUpdatedRequest(string Key)
-        {
-            this.Key = Key;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="IsUpdated_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
-    public partial class IsUpdatedResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
-        public bool IsUpdated_Result;
-        
-        public IsUpdatedResponse()
-        {
-        }
-        
-        public IsUpdatedResponse(bool IsUpdated_Result)
-        {
-            this.IsUpdated_Result = IsUpdated_Result;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
-    public partial class GetRecIdFromKeyRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
-        public string Key;
-        
-        public GetRecIdFromKeyRequest()
-        {
-        }
-        
-        public GetRecIdFromKeyRequest(string Key)
-        {
-            this.Key = Key;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetRecIdFromKey_Result", WrapperNamespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", IsWrapped=true)]
-    public partial class GetRecIdFromKeyResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="urn:microsoft-dynamics-schemas/page/coursesessionteacher", Order=0)]
-        public string GetRecIdFromKey_Result;
-        
-        public GetRecIdFromKeyResponse()
-        {
-        }
-        
-        public GetRecIdFromKeyResponse(string GetRecIdFromKey_Result)
-        {
-            this.GetRecIdFromKey_Result = GetRecIdFromKey_Result;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
     public interface CourseSessionTeacher_ServiceChannel : CourseSessionTeacher_WebService.CourseSessionTeacher_Service, System.ServiceModel.IClientChannel
     {
@@ -1062,6 +1167,32 @@ namespace CourseSessionTeacher_WebService
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.GetRecIdFromKeyResponse> CourseSessionTeacher_WebService.CourseSessionTeacher_Service.GetRecIdFromKeyAsync(CourseSessionTeacher_WebService.GetRecIdFromKeyRequest request)
+        {
+            return base.Channel.GetRecIdFromKeyAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CourseSessionTeacher_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(string Key)
+        {
+            CourseSessionTeacher_WebService.GetRecIdFromKeyRequest inValue = new CourseSessionTeacher_WebService.GetRecIdFromKeyRequest();
+            inValue.Key = Key;
+            return ((CourseSessionTeacher_WebService.CourseSessionTeacher_Service)(this)).GetRecIdFromKeyAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.IsUpdatedResponse> CourseSessionTeacher_WebService.CourseSessionTeacher_Service.IsUpdatedAsync(CourseSessionTeacher_WebService.IsUpdatedRequest request)
+        {
+            return base.Channel.IsUpdatedAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CourseSessionTeacher_WebService.IsUpdatedResponse> IsUpdatedAsync(string Key)
+        {
+            CourseSessionTeacher_WebService.IsUpdatedRequest inValue = new CourseSessionTeacher_WebService.IsUpdatedRequest();
+            inValue.Key = Key;
+            return ((CourseSessionTeacher_WebService.CourseSessionTeacher_Service)(this)).IsUpdatedAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<CourseSessionTeacher_WebService.ReadResponse> CourseSessionTeacher_WebService.CourseSessionTeacher_Service.ReadAsync(CourseSessionTeacher_WebService.ReadRequest request)
         {
             return base.Channel.ReadAsync(request);
@@ -1103,32 +1234,6 @@ namespace CourseSessionTeacher_WebService
             return ((CourseSessionTeacher_WebService.CourseSessionTeacher_Service)(this)).ReadMultipleAsync(inValue);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.IsUpdatedResponse> CourseSessionTeacher_WebService.CourseSessionTeacher_Service.IsUpdatedAsync(CourseSessionTeacher_WebService.IsUpdatedRequest request)
-        {
-            return base.Channel.IsUpdatedAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<CourseSessionTeacher_WebService.IsUpdatedResponse> IsUpdatedAsync(string Key)
-        {
-            CourseSessionTeacher_WebService.IsUpdatedRequest inValue = new CourseSessionTeacher_WebService.IsUpdatedRequest();
-            inValue.Key = Key;
-            return ((CourseSessionTeacher_WebService.CourseSessionTeacher_Service)(this)).IsUpdatedAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<CourseSessionTeacher_WebService.GetRecIdFromKeyResponse> CourseSessionTeacher_WebService.CourseSessionTeacher_Service.GetRecIdFromKeyAsync(CourseSessionTeacher_WebService.GetRecIdFromKeyRequest request)
-        {
-            return base.Channel.GetRecIdFromKeyAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<CourseSessionTeacher_WebService.GetRecIdFromKeyResponse> GetRecIdFromKeyAsync(string Key)
-        {
-            CourseSessionTeacher_WebService.GetRecIdFromKeyRequest inValue = new CourseSessionTeacher_WebService.GetRecIdFromKeyRequest();
-            inValue.Key = Key;
-            return ((CourseSessionTeacher_WebService.CourseSessionTeacher_Service)(this)).GetRecIdFromKeyAsync(inValue);
-        }
-        
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
@@ -1158,7 +1263,7 @@ namespace CourseSessionTeacher_WebService
         {
             if ((endpointConfiguration == EndpointConfiguration.CourseSessionTeacher_Service))
             {
-                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-test.azure-api.net/coursesessionteacher");
+                return new System.ServiceModel.EndpointAddress("https://iqiapimanagement-asa-dev.azure-api.net/coursesessionteacher");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
