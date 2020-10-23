@@ -21,7 +21,7 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CourseSession>> GetCourseSessionByIdAsync(string accountFromHeader, string filter, int size = 0)
+        public async Task<IEnumerable<CourseSession>> GetCourseSessionByIdAsync(string accountFromHeader, string filter, string status = "0", int size = 0)
         {
             if (string.IsNullOrEmpty(filter))
             {
@@ -30,7 +30,9 @@ namespace ASA.Apim.NetStdLib.Services
             }
 
             var CourseSessionfilter = SingleCourseSessionFilter(filter, CourseSession_Fields.Course_Header_No);
-            return await GetCourseSessionsAsync(accountFromHeader, CourseSessionfilter, size);
+            var sessionFilter = status.ToUpper() == "ALL" ? CourseSessionfilter : ExtendCourseSessionFilter(CourseSessionfilter, status, CourseSession_Fields.Cancelled);
+            return await GetCourseSessionsAsync(accountFromHeader, sessionFilter, size);
+            //return await GetCourseSessionsAsync(accountFromHeader, CourseSessionfilter, size);
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CourseSession>> GetCourseSessionByIdAndDateAsync(string accountFromHeader, string filter, DateTime fromDate, int size = 0)
+        public async Task<IEnumerable<CourseSession>> GetCourseSessionByIdAndDateAsync(string accountFromHeader, string filter, DateTime fromDate, string status = "0", int size = 0)
         {
             if (string.IsNullOrEmpty(filter))
             {
@@ -49,7 +51,8 @@ namespace ASA.Apim.NetStdLib.Services
 
             var CourseSessionfilter = SingleCourseSessionFilter(filter, CourseSession_Fields.Course_Header_No);
             var extendedCourseSessionfilter = ExtendCourseSessionFilter(CourseSessionfilter, ">=" + fromDate.ToString("MM/dd/yyyy hh:mm:ss tt"), CourseSession_Fields.Date);
-            return await GetCourseSessionsAsync(accountFromHeader, extendedCourseSessionfilter, size);
+            var sessionFilter = status.ToUpper() == "ALL" ? extendedCourseSessionfilter : ExtendCourseSessionFilter(extendedCourseSessionfilter, status, CourseSession_Fields.Cancelled);
+            return await GetCourseSessionsAsync(accountFromHeader, sessionFilter, size);
         }
 
         /// <summary>
@@ -69,12 +72,13 @@ namespace ASA.Apim.NetStdLib.Services
             {
                 //Workaround: AccountKey in Credentials must be provided as a request header.
                 Credentials.AccountKey = accountFromHeader;
-
+                
                 var genericServiceClientHelper = new GenericServiceClientHelper<CourseSession_ServiceClient, CourseSession_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 
                 var response = await service.ReadMultipleAsync(filter, "", size);
                 await service.CloseAsync();
+
                 return response.ReadMultiple_Result.ToList();
             }
             catch (Exception exception)

@@ -64,7 +64,7 @@ namespace ASA.Apim.NetStdLib.Services
             return await GetSalaryTimeSpecsAsync(accountFromHeader, fromDateTime, toDateTime, filter, size);
         }
 
-        internal async Task<IEnumerable<SalaryTimeSpec>> GetSalaryTimeSpecsAsync(string accountFromHeader, DateTime fromDateTime, DateTime toDateTime, SalaryTimeSpec_Filter[] filter, int size)
+        internal async Task<IEnumerable<SalaryTimeSpec>> GetSalaryTimeSpecsAsync(string accountFromHeader, DateTime fromDateTime, DateTime toDateTime, SalaryTimeSpec_Filter[] orgFilter, int size)
         {
             //If fromDate N/A it is set to Default(DateTime) i.e. DateTime.MinValue. 
             //If toDateTime N/A, set it to DateTime.Now.
@@ -74,7 +74,11 @@ namespace ASA.Apim.NetStdLib.Services
                 toDateTime = DateTime.Now;
 
             //Adjust toDateTime, so it takes the rest of the 24 hours (Undtil midnight).
-            toDateTime = toDateTime.Date.AddDays(1);
+            //toDateTime = toDateTime.Date.AddDays(1);
+
+            var dateInterval = $"{fromDateTime.Month} {fromDateTime.Day} {fromDateTime.Year}..{toDateTime.Month} {toDateTime.Day} {toDateTime.Year}";
+            var filter = orgFilter.Concat(SingleSalaryTimeSpecFilter(dateInterval, SalaryTimeSpec_Fields.Date)).ToArray();
+            //var filter = orgFilter;
 
             try
             {
@@ -84,14 +88,47 @@ namespace ASA.Apim.NetStdLib.Services
                 var genericServiceClientHelper = new GenericServiceClientHelper<SalaryTimeSpec_ServiceClient, SalaryTimeSpec_Service>(Credentials, AppSettings);
                 var service = genericServiceClientHelper.GetServiceClient();
 
-                var response = await service.ReadMultipleAsync(filter, "", size);
+                
+                const int fetchSize = 1000;
+                string bookmarkKey = null;
+                List<SalaryTimeSpec> list = new List<SalaryTimeSpec>();
+                SalaryTimeSpec[] results = (await service.ReadMultipleAsync(filter, bookmarkKey, fetchSize)).ReadMultiple_Result;
+               
+                while (results.Length > 0)
+                {
+                    bookmarkKey = results.Last().Key;
+                    list.AddRange(results);
+                    if (results.Length >= fetchSize && fetchSize != 0)
+                    {
+                        results = (await service.ReadMultipleAsync(filter, bookmarkKey, fetchSize)).ReadMultiple_Result;
+
+                    }
+                    else break;
+                }
+                
+                //var response = await service.ReadMultipleAsync(filter, "", size);
                 await service.CloseAsync();
-                //return response.ReadMultiple_Result.ToList();
-                return response.ReadMultiple_Result.Where(r => 
-                //r.Salary_Settled == false && 
-                r.From_DateTime >= fromDateTime && 
+
+                toDateTime = toDateTime.Date.AddDays(1);
+                var returnList = list.Where(r =>
+                r.From_DateTime >= fromDateTime &&
                 r.To_DateTime <= toDateTime
                 ).OrderBy(t => t.From_DateTime);
+
+                var count = returnList.Count();
+                
+                return returnList;
+                
+                //return list.Where(r =>
+                //r.From_DateTime >= fromDateTime &&
+                //r.To_DateTime <= toDateTime
+                //).OrderBy(t => t.From_DateTime);
+
+                //return response.ReadMultiple_Result.Where(r => 
+                ////r.Salary_Settled == false && 
+                //r.From_DateTime >= fromDateTime && 
+                //r.To_DateTime <= toDateTime
+                //).OrderBy(t => t.From_DateTime);
             }
             catch (Exception exception)
             {

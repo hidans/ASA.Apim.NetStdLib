@@ -459,6 +459,9 @@ namespace SalaryTeacherSpec_WebService
         
         /// <remarks/>
         Hourly_Paid,
+        
+        /// <remarks/>
+        B_indkomst,
     }
     
     /// <remarks/>
