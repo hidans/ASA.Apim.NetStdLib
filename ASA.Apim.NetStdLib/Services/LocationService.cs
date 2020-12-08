@@ -21,13 +21,13 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Location>> GetLocationByIdAsync(string accountFromHeader, string filter, int size = 0)
+        public async Task<IEnumerable<Location>> GetLocationByIdAsync(string accountFromHeader, string filter = "", int size = 0)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                //throw new Exception("Filter cannot be null or empty string.");
-                return new List<Location>();
-            }
+            //if (string.IsNullOrEmpty(filter))
+            //{
+            //    //throw new Exception("Filter cannot be null or empty string.");
+            //    return new List<Location>();
+            //}
 
             var Locationfilter = SingleLocationFilter(filter, Location_Fields.No);
             return await GetLocationsAsync(accountFromHeader, Locationfilter, size);

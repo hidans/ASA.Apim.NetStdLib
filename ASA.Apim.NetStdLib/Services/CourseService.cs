@@ -74,6 +74,18 @@ namespace ASA.Apim.NetStdLib.Services
             return task;
         }
 
+        /// <summary>
+        /// Get CourseHeaders with details from Navision, using Course number as filter.
+        /// </summary>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeader>> GetCourseHeadersAsync(string accountFromHeader, int size = 0)
+        {
+           var CourseHeaderfilter = SingleCourseHeaderFilter(string.Empty, CourseHeader_Fields.No);
+           var task = await GetCourseHeaders(accountFromHeader, CourseHeaderfilter, size);
+           return task;
+        }
+
         //public async Task<IEnumerable<CourseHeader>> GetCourseHeaders(string accountFromHeader, int size = 0)
         //{
         //    return await GetCourseHeadersById(accountFromHeader, "");

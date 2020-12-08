@@ -14,6 +14,7 @@ namespace ASA.Apim.NetStdLib.Helpers
 
             if (sourceList != null && sourceList.Any())
             {
+                sourceList = sourceList.Where(s => !string.IsNullOrEmpty(s));
                 criteria = string.Join("|", sourceList);
                 if (!string.IsNullOrEmpty(criteria))
                 {
@@ -27,6 +28,7 @@ namespace ASA.Apim.NetStdLib.Helpers
                     }
                 }
             }
+
 
             return criteria;
 
