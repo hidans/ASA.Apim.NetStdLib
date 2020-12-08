@@ -25,7 +25,7 @@ namespace ASA.Apim.NetStdLib.Services
         public async Task<IEnumerable<Municipality>> GetMunicipalityById(string accountFromHeader, string filter = "", int size = 0)
         {
             var Municipalityfilter = SingleMunicipalityFilter("", Municipality_Fields.Post_Code);
-            return (await GetMunicipalitiesAsync(accountFromHeader, Municipalityfilter, size)).Where(m => m.Post_Code == filter);
+            return (await GetMunicipalitiesAsync(accountFromHeader, Municipalityfilter, size)).Where(m => m.Post_Code == filter || string.IsNullOrEmpty(filter));
         }
 
         // <summary>
