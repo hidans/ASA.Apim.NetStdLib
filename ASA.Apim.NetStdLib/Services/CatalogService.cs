@@ -106,7 +106,7 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="accountKey">Account key from Navision. [Required]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Catalog>> GetActiveCatalogs(string accountFromHeader, int size = 0)
+        public async Task<IEnumerable<Catalog>> GetActiveCatalogsAsync(string accountFromHeader, int size = 0)
         {
             return await GetActiveCatalogsAsync(accountFromHeader, DateTime.Now, size);
         }
