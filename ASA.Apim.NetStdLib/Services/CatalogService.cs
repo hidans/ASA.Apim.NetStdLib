@@ -25,7 +25,7 @@ namespace ASA.Apim.NetStdLib.Services
         public async Task<IEnumerable<Catalog>> GetCategoriesByIdAsync(string accountFromHeader, string filter = "", int size = 0)
         {
             var Catalogfilter = SingleCatalogFilter(filter, Catalog_Fields.Id);
-            return await GetCatalogsAsync(accountFromHeader, Catalogfilter, size);
+            return await GetCategoriesAsync(accountFromHeader, Catalogfilter, size);
         }
 
         /// <summary>
