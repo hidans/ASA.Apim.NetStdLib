@@ -7,12 +7,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EnvironmentAppsettings;
+using ASA.Apim.NetStdLib.Models;
 
 namespace ASA.Apim.NetStdLib.Services
 {
     public class DepartmentService: BaseService
     {
         public DepartmentService(ApiManagerCredentials credentials, AppSettings appSettings) : base(credentials, appSettings) {}
+
+        #region SchoolWithDepartments
+        public async Task<IEnumerable<SchoolDepartment>> GetSchoolDepartmentsAsync(string accountFromHeader, List<string> departmentsCodes, int size = 0)
+        {
+            var filter = Tools.GetCriteria(departmentsCodes);
+            var sb = new StringBuilder(filter).Append("|''").ToString();
+            var departments = await GetDepartmentById(accountFromHeader, sb, size);
+            var schoolDepartments = new List<SchoolDepartment>();
+            var mainSchool = new SchoolDepartment();
+            foreach (var dep in departments)
+            {
+                if (dep.Primary_Key == null)
+                {
+                    mainSchool.School = dep;
+                    continue;
+                }
+                    
+
+                if (!dep.Apply_School_Data_on_Reports)
+                {
+                    var schoolDep = new SchoolDepartment();
+                    schoolDep.School = dep;
+                    schoolDep.Departments.Add(dep);
+                    schoolDepartments.Add(schoolDep);
+                }
+                else
+                {
+                    mainSchool.Departments.Add(dep);
+                }
+            }
+            if (mainSchool.School != null && mainSchool.Departments.Any())
+            {
+                schoolDepartments.Add(mainSchool);
+            }
+
+            return schoolDepartments;
+        }
+        #endregion
 
         #region Department
         /// <summary>

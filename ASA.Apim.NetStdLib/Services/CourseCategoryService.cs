@@ -19,6 +19,12 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         #region CourseCategory
+        /// <summary>
+        /// Gets CourseCategories.
+        /// </summary>
+        /// <param name="accountFromHeader">Account from header.</param>
+        /// <param name="size">Number of records returned, 0 => returns all.</param>
+        /// <returns></returns>
         public async Task<IEnumerable<CourseCategory>> GetCourseCategoriesAsync(string accountFromHeader, int size = 0) 
         {
             var categoriesId = (await _catalogService.GetCategoriesAsync(accountFromHeader)).Select(c => c.Id.ToString());
@@ -28,6 +34,12 @@ namespace ASA.Apim.NetStdLib.Services
             return await GetCourseCategoryAsync(accountFromHeader, filter, size);
         }
 
+        /// <summary>
+        /// Gets coursecatalogs.
+        /// </summary>
+        /// <param name="accountFromHeader">Account from header.</param>
+        /// <param name="size">Number of records returned, 0 => returns all.</param>
+        /// <returns></returns>
         public async Task<IEnumerable<CourseCategory>> GetCourseCatalogsAsync(string accountFromHeader, int size = 0)
         {
             var ids = (await _catalogService.GetCatalogsAsync(accountFromHeader)).Select(c => c.Id.ToString());
@@ -37,7 +49,33 @@ namespace ASA.Apim.NetStdLib.Services
             return await GetCourseCategoryAsync(accountFromHeader, filter, size);
         }
 
-        //TODO: Method returns string with courseNos given a CatalogId => to be used to generate filter for other Methods.
+        /// <summary>
+        /// Get course categories for given catalog Ids.
+        /// </summary>
+        /// <param name="accountFromHeader">Account from header.</param>
+        /// <param name="ids">Catalog ids.</param>
+        /// <param name="size">Number of records returned, 0 => returns all.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseCategory>> GetCourseCategoriesByIdAsync(string accountFromHeader, string ids, int size = 0)
+        {
+            var filter = SingleCourseCategoryFilter(ids, CourseCategory_Fields.Course_Attribute_ID);
+
+            return await GetCourseCategoryAsync(accountFromHeader, filter, size);
+        }
+
+        /// <summary>
+        /// Get CourseHeaders Ids given a catalog Id to use as a filter in other methods.
+        /// </summary>
+        /// <param name="accountFromHeader">Account from Header.</param>
+        /// <param name="catalogId">Catalog Id.</param>
+        /// <param name="size">Number of records returned, 0 => returns all.</param>
+        /// <returns></returns>
+        public async Task<string> GetCourseNosCriteriaByCatalogIdAsync(string accountFromHeader, string catalogId, int size = 0)
+        {
+            var ids = (await GetCourseCategoriesByIdAsync(accountFromHeader, catalogId, size)).Select(c => c.Course_Header_No).Distinct();
+            var criteria = Tools.GetCriteria(ids);
+            return criteria;
+        }
 
         internal async Task<IEnumerable<CourseCategory>> GetCourseCategoryAsync(string accountFromHeader, CourseCategory_Filter[] filter, int size)
         {

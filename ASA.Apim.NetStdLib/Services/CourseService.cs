@@ -14,8 +14,12 @@ namespace ASA.Apim.NetStdLib.Services
 {
     public class CourseService: BaseService
     {
+        private readonly CourseCategoryService _courseCategoryService;
+        public IEnumerable<string> CourseDepartmentsCodes { get; set; }
+
         public CourseService(ApiManagerCredentials credentials, AppSettings appSettings) :base(credentials, appSettings)
         {
+            _courseCategoryService = new CourseCategoryService(credentials, appSettings);
         }
 
         #region CourseHeader
@@ -55,6 +59,21 @@ namespace ASA.Apim.NetStdLib.Services
         #endregion
 
         #region CourseHeaders
+        /// <summary>
+        /// Get CourseHeaders with details from Navision, using Catalog id as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseHeader>> GetCourseHeadersByCatalogIdAsync(string accountFromHeader, string filter = "", int size = 0)
+        {
+            var courseNos = await _courseCategoryService.GetCourseNosCriteriaByCatalogIdAsync(accountFromHeader, filter, size);
+            var CourseHeaderfilter = SingleCourseHeaderFilter(courseNos, CourseHeader_Fields.No);
+            var bookedLaunchedFilter = ExtendCourseHeaderFilter(CourseHeaderfilter, "booked|Launched", CourseHeader_Fields.GeneralCourseStatus);
+            var task = await GetCourseHeaders(accountFromHeader, bookedLaunchedFilter, size);
+            return task;
+        }
+
         /// <summary>
         /// Get CourseHeaders with details from Navision, using Course number as filter.
         /// </summary>
@@ -119,7 +138,9 @@ namespace ASA.Apim.NetStdLib.Services
 
                 var response = await service.ReadMultipleAsync(filter, "", size);
                 await service.CloseAsync();
-                return response.ReadMultiple_Result.ToList();
+                var results = response.ReadMultiple_Result;
+                CourseDepartmentsCodes = results.AsParallel().Select(c => c.CourseDepartment).Distinct();//Effect??
+                return results.ToList();
             }
             catch (Exception exception)
             {
