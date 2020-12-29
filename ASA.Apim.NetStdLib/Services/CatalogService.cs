@@ -63,8 +63,13 @@ namespace ASA.Apim.NetStdLib.Services
         /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Catalog>> GetCatalogByNameAsync(string accountFromHeader, string filter = "", int size = 0)
+        public async Task<IEnumerable<Catalog>> GetCatalogByNameAsync(string accountFromHeader, string filter, int size = 0)
         {
+            if (string.IsNullOrEmpty(filter))
+            {
+                return new List<Catalog>();
+            }
+            filter = $"@{filter}";
             var Catalogfilter = SingleCatalogFilter(filter, Catalog_Fields.Description);
             return await GetCatalogsAsync(accountFromHeader, Catalogfilter, size);
         }
