@@ -84,6 +84,31 @@ namespace ASA.Apim.NetStdLib.Services
         public async Task<IEnumerable<CourseHeader>> GetCourseHeadersByCatalogIdAsync(string accountFromHeader, string filter = "", string departments = "", int size = 0)
         {
             var courseNos = await _courseCategoryService.GetCourseNosCriteriaByCatalogIdAsync(accountFromHeader, filter, size);
+            if (string.IsNullOrEmpty(courseNos))
+            {
+                return new List<CourseHeader>();
+            }
+
+            return await GetCourseHeadersByIdAsync(accountFromHeader, courseNos, departments, size);
+            //var CourseHeaderfilter = SingleCourseHeaderFilter(courseNos, CourseHeader_Fields.No);
+            //var bookedLaunchedFilter = ExtendCourseHeaderFilter(CourseHeaderfilter, "booked|Launched", CourseHeader_Fields.GeneralCourseStatus);
+            //var departmentsFilter = ExtendCourseHeaderFilter(bookedLaunchedFilter, departments, CourseHeader_Fields.CourseDepartment);
+            //var task = await GetCourseHeaders(accountFromHeader, departmentsFilter, size);
+            //return task;
+        }
+
+        private async Task<IEnumerable<CourseHeader>> GetCourseHeadersByIdAsync(string accountFromHeader, string courseNos, string departments = "", int size = 0)
+        {
+            var filterSplit = courseNos.Split('|').ToList();
+
+            if (filterSplit.Count() > 500)
+            {
+                var filterIndex = courseNos.IndexOf("|", courseNos.Length / 2);
+                var res1 = await GetCourseHeadersByIdAsync(accountFromHeader, courseNos.Substring(0, filterIndex), departments, size);
+                var res2 = await GetCourseHeadersByIdAsync(accountFromHeader, courseNos.Substring(filterIndex + 1), departments, size);
+                return res1.Concat(res2);
+            }
+
             var CourseHeaderfilter = SingleCourseHeaderFilter(courseNos, CourseHeader_Fields.No);
             var bookedLaunchedFilter = ExtendCourseHeaderFilter(CourseHeaderfilter, "booked|Launched", CourseHeader_Fields.GeneralCourseStatus);
             var departmentsFilter = ExtendCourseHeaderFilter(bookedLaunchedFilter, departments, CourseHeader_Fields.CourseDepartment);
@@ -153,11 +178,29 @@ namespace ASA.Apim.NetStdLib.Services
                 var service = genericServiceClientHelper.GetServiceClient();
                 #endregion
 
-                var response = await service.ReadMultipleAsync(filter, "", size);
-                await service.CloseAsync();
+                const int fetchSize = 1000;
+                string bookmarkKey = null;
+
+                List<CourseHeader> list = new List<CourseHeader>();
+
+                var response = await service.ReadMultipleAsync(filter, bookmarkKey, fetchSize);
                 var results = response.ReadMultiple_Result;
-                CourseDepartmentsCodes = results.AsParallel().Select(c => c.CourseDepartment).Distinct();//Effect??
-                return results.ToList();
+                while (results.Length > 0)
+                {
+                    bookmarkKey = results.Last().Key;
+                    list.AddRange(results);
+                    if (results.Length >= fetchSize && fetchSize != 0)
+                    {
+                        response = await service.ReadMultipleAsync(filter, bookmarkKey, fetchSize);
+                        results = response.ReadMultiple_Result;
+                    }
+                    else break;
+                }
+                await service.CloseAsync();
+
+
+                CourseDepartmentsCodes = list.AsParallel().Select(c => c.CourseDepartment).Distinct();//Effect??
+                return list;
             }
             catch (Exception exception)
             {

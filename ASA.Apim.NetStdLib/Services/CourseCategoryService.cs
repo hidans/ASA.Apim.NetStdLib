@@ -77,6 +77,13 @@ namespace ASA.Apim.NetStdLib.Services
             return criteria;
         }
 
+        public async Task<IEnumerable<string>> GetCourseNosByCatalogIdAsync(string accountFromHeader, string catalogId, int size = 0)
+        {
+            var ids = (await GetCourseCategoriesByIdAsync(accountFromHeader, catalogId, size)).Select(c => c.Course_Header_No).Distinct();
+            
+            return ids;
+        }
+
         internal async Task<IEnumerable<CourseCategory>> GetCourseCategoryAsync(string accountFromHeader, CourseCategory_Filter[] filter, int size)
         {
             try

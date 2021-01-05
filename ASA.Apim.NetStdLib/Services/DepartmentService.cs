@@ -16,17 +16,12 @@ namespace ASA.Apim.NetStdLib.Services
         public DepartmentService(ApiManagerCredentials credentials, AppSettings appSettings) : base(credentials, appSettings) {}
 
         #region SchoolWithDepartments
-        public async Task<IEnumerable<SchoolDepartment>> GetSchoolDepartmentsAsync(string accountFromHeader, List<string> departmentsCodes, int size = 0)
+        public async Task<IEnumerable<SchoolDepartment>> GetSchoolDepartmentsAsync(string accountFromHeader, List<string> departmentsCodes = null, int size = 0)
         {
             var schoolDepartments = new List<SchoolDepartment>();
-
-            if (departmentsCodes.Count <= 0)
-            {
-                return schoolDepartments;
-            }
-            var filter = Tools.GetCriteria(departmentsCodes);
-            var sb = new StringBuilder(filter).Append("|''").ToString();
-            var departments = await GetDepartmentById(accountFromHeader, sb, size);
+            var filter = departmentsCodes != null && departmentsCodes.Count() > 0 ? Tools.GetCriteria(departmentsCodes) + "|''" : string.Empty;
+           
+            var departments = await GetDepartmentById(accountFromHeader, filter, size);
             
             var mainSchool = new SchoolDepartment();
             foreach (var dep in departments)
