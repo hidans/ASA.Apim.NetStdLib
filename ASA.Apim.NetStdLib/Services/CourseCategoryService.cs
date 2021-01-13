@@ -18,6 +18,61 @@ namespace ASA.Apim.NetStdLib.Services
             _catalogService = new CatalogService(credentials, appSettings);
         }
 
+        #region CoreData
+        /// <summary>
+        /// Gets coursecatalogs for CoreData.
+        /// </summary>
+        /// <param name="accountFromHeader">Account from header.</param>
+        /// <param name="courseNos">Related courseNos.</param>
+        /// <param name="size">Number of records returned, 0 => returns all.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseCategory>> GetMDCourseCatalogsAsync(string accountFromHeader, IEnumerable<string> courseNos = null, int size = 0)
+        {
+            var ids = (await _catalogService.GetCatalogsAsync(accountFromHeader)).Select(c => c.Id.ToString());
+            var criteria = Tools.GetCriteria(ids);
+            var filter = SingleCourseCategoryFilter(criteria, CourseCategory_Fields.Course_Attribute_ID);
+            var courseNosFilter = Tools.GetCriteria(courseNos);
+
+            return await GetMDCourseCategoryAsync(accountFromHeader, filter, courseNosFilter, size);
+        }
+
+        /// <summary>
+        /// Gets CourseCategories for CoreData.
+        /// </summary>
+        /// <param name="accountFromHeader">Account from header.</param>
+        /// <param name="courseNos">Related courseNos.</param>
+        /// <param name="size">Number of records returned, 0 => returns all.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseCategory>> GetMDCourseCategoriesAsync(string accountFromHeader, IEnumerable<string> courseNos = null, int size = 0)
+        {
+            var categoriesId = (await _catalogService.GetCategoriesAsync(accountFromHeader)).Select(c => c.Id.ToString());
+            var criteria = Tools.GetCriteria(categoriesId);
+            var filter = SingleCourseCategoryFilter(criteria, CourseCategory_Fields.Course_Attribute_ID);
+            var courseNosFilter = Tools.GetCriteria(courseNos);
+
+            return await GetMDCourseCategoryAsync(accountFromHeader, filter, courseNosFilter, size);
+        }
+
+        private async Task<IEnumerable<CourseCategory>> GetMDCourseCategoryAsync(string accountFromHeader, CourseCategory_Filter[] filter, string courseNos, int size)
+        {
+            var filterSplit = courseNos.Split('|').ToList();
+
+            if (filterSplit.Count() > 500)
+            {
+                var filterIndex = courseNos.IndexOf("|", courseNos.Length / 2);
+                var res1 = await GetMDCourseCategoryAsync(accountFromHeader, filter, courseNos.Substring(0, filterIndex), size);
+                var res2 = await GetMDCourseCategoryAsync(accountFromHeader, filter, courseNos.Substring(filterIndex + 1), size);
+                return res1.Concat(res2);
+            }
+
+            var courseNosFilter = ExtendCourseCategoryFilter(filter, courseNos, CourseCategory_Fields.Course_Header_No);
+
+            return await GetCourseCategoryAsync(accountFromHeader, courseNosFilter, size);
+        }
+
+
+        #endregion
+
         #region CourseCategory
         /// <summary>
         /// Gets CourseCategories.
