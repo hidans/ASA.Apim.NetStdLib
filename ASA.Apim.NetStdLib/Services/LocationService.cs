@@ -15,6 +15,7 @@ namespace ASA.Apim.NetStdLib.Services
         public LocationService(ApiManagerCredentials credentials, AppSettings appSettings) : base(credentials, appSettings) { }
 
         #region Location
+        /* #TAG:CoreDocs */
         /// <summary>
         /// Get Locations with details from Navision, using Location number as filter.
         /// </summary>
@@ -30,6 +31,27 @@ namespace ASA.Apim.NetStdLib.Services
             //}
 
             var Locationfilter = SingleLocationFilter(filter, Location_Fields.No);
+            return await GetLocationsAsync(accountFromHeader, Locationfilter, size);
+        }
+
+        /// <summary>
+        /// Get MD Locations with details from Navision, using Location number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Location>> GetMDLocationsByIdAsync(string accountFromHeader, IList<string> locationNos, int size = 0)
+        {
+            var locationNosFilter = Tools.GetCriteria(locationNos);
+            
+            if (string.IsNullOrEmpty(locationNosFilter))
+            {
+                return new List<Location>();
+            }
+
+            
+
+            var Locationfilter = SingleLocationFilter(locationNosFilter, Location_Fields.No);
             return await GetLocationsAsync(accountFromHeader, Locationfilter, size);
         }
 

@@ -118,6 +118,23 @@ namespace ASA.Apim.NetStdLib.Services
 
 
         /// <summary>
+        /// Get all Active Catalogs for a given date.
+        /// </summary>
+        /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>
+        /// <param name="accountFromHeader">Account key from Navision. [Required]</param>
+        /// <param name="activeDate">A given date. [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Catalog>> GetMDCatalogsAsync(string accountFromHeader, DateTime activeDate, int size = 0)
+        {
+            return (await GetCatalogByIdAsync(accountFromHeader)).Where(c =>
+            (c.Catalog_From_Date <= activeDate || c.Catalog_From_Date == DateTime.MinValue) &&
+            (c.Catalog_To_Date.AddDays(1) >= activeDate || c.Catalog_To_Date == DateTime.MinValue)
+            );
+        }
+
+
+        /// <summary>
         /// Get all Active Catalogs for today's date.
         /// </summary>
         /// <param name="subscriptionKey">Signup in Api Manager to get a key. [Required]</param>

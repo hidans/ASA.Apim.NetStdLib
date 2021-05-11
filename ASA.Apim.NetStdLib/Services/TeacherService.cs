@@ -38,6 +38,24 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         /// <summary>
+        /// Get Teachers with details from Navision, using Teacher number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Teacher>> GetMDTeachersByIdAsync(string accountFromHeader, IList<string> teacherNos, int size = 0)
+        {
+            var teacherNosFilter = Tools.GetCriteria(teacherNos);
+            if (string.IsNullOrEmpty(teacherNosFilter))
+            {
+                return new List<Teacher>();
+            }         
+
+            var Teacherfilter = SingleTeacherFilter(teacherNosFilter, Teacher_Fields.No);
+            return await GetTeacher(accountFromHeader, Teacherfilter, size);
+        }
+
+        /// <summary>
         /// Get SalaryTeacherSpecs with details from Navision, using SalaryTeacherSpec_Filter.
         /// </summary>
         /// <param name="filter">An instance of SalaryTeacherSpec_Filter.</param>

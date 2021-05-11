@@ -36,6 +36,28 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         /// <summary>
+        /// Get MD CourseSessions with details from Navision, using CourseSession number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseSession>> GetMDCourseSessionAsync(string accountFromHeader, IEnumerable<string> courseNos, int size = 0)
+        {
+            if (courseNos.Count() == 0)
+            {
+                return new List<CourseSession>();
+            }
+
+            var courseNosFilter = Tools.GetCriteria(courseNos);
+            var CourseSessionfilter = SingleCourseSessionFilter(courseNosFilter, CourseSession_Fields.Course_Header_No);
+            //var sessionFilter = status.ToUpper() == "ALL" ? CourseSessionfilter : ExtendCourseSessionFilter(CourseSessionfilter, status, CourseSession_Fields.Cancelled);
+            //return await GetCourseSessionsAsync(accountFromHeader, sessionFilter, size);
+            var sessionFilter = ExtendCourseSessionFilter(CourseSessionfilter, "0", CourseSession_Fields.Booked_Teachers);
+            return await GetCourseSessionsAsync(accountFromHeader, sessionFilter, size);
+            //return await GetCourseSessionsAsync(accountFromHeader, CourseSessionfilter, size);
+        }
+
+        /// <summary>
         /// Get CourseSessions with details from Navision, using CourseSession number as filter.
         /// </summary>
         /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>

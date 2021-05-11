@@ -16,6 +16,7 @@ namespace ASA.Apim.NetStdLib.Services
         public DepartmentService(ApiManagerCredentials credentials, AppSettings appSettings) : base(credentials, appSettings) {}
 
         #region SchoolWithDepartments
+        /* #TAG:CoreDocs */
         public async Task<IEnumerable<SchoolDepartment>> GetSchoolDepartmentsAsync(string accountFromHeader, List<string> departmentsCodes = null, int size = 0)
         {
             var schoolDepartments = new List<SchoolDepartment>();

@@ -35,6 +35,25 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         /// <summary>
+        /// Get CoursePriceTypes with details from Navision, using Course number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CoursePriceType>> GetMDCoursePriceTypeById(string accountFromHeader, IEnumerable<string> courseNos, int size = 0)
+        {
+            if (courseNos.Count() == 0)
+            {
+                return new List<CoursePriceType>();
+            }
+
+            var courseNosFilter = Tools.GetCriteria(courseNos);
+
+            var CoursePriceTypefilter = SingleCoursePriceTypeFilter(courseNosFilter, CoursePriceType_Fields.Course_Team);
+            return await GetCoursePriceTypesAsync(accountFromHeader, CoursePriceTypefilter, size);
+        }
+
+        /// <summary>
         /// Get CoursePriceType with details from Navision, using CoursePriceType_Filter.
         /// </summary>
         /// <param name="filter">An instance of CoursePriceType_Filter.</param>

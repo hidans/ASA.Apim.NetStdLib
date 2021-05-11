@@ -69,6 +69,18 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         /// <summary>
+        /// Get CourseTeacherReports with details from Navision, using Teacher number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseTeacherReport>> GetCourseTeacherById(string accountFromHeader, string teacherNo, int size = 0)
+        {
+            var filter = SingleCourseTeacherReportFilter(teacherNo, CourseTeacherReport_Fields.Teacher_No);
+            return await GetCourseTeacherReport(accountFromHeader, filter, size);
+        }
+
+        /// <summary>
         /// Get CourseTeacherReports with details from Navision, using CourseTeacherReport_Filter.
         /// </summary>
         /// <param name="filter">An instance of CourseTeacherReport_Filter.</param>

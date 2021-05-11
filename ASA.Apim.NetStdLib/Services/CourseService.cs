@@ -16,6 +16,9 @@ namespace ASA.Apim.NetStdLib.Services
     {
         private readonly CourseCategoryService _courseCategoryService;
         public IEnumerable<string> CourseDepartmentsCodes { get; set; }
+        public IEnumerable<string> LocationNos { get; set; }
+        public IEnumerable<string> TeacherNos { get; set; }//primary teachers numbers
+        public string BookMark { get; set; }
 
         public CourseService(ApiManagerCredentials credentials, AppSettings appSettings) :base(credentials, appSettings)
         {
@@ -74,6 +77,7 @@ namespace ASA.Apim.NetStdLib.Services
         //    return task;
         //}
 
+        #region CatalogApi
         /// <summary>
         /// Get CourseHeaders with details from Navision, using Catalog id as filter.
         /// </summary>
@@ -89,13 +93,34 @@ namespace ASA.Apim.NetStdLib.Services
                 return new List<CourseHeader>();
             }
 
-            return await GetCourseHeadersByIdAsync(accountFromHeader, courseNos, departments, size);
+            return await GetActiveCourseHeadersByIdAsync(accountFromHeader, courseNos, departments, size);
             //var CourseHeaderfilter = SingleCourseHeaderFilter(courseNos, CourseHeader_Fields.No);
             //var bookedLaunchedFilter = ExtendCourseHeaderFilter(CourseHeaderfilter, "booked|Launched", CourseHeader_Fields.GeneralCourseStatus);
             //var departmentsFilter = ExtendCourseHeaderFilter(bookedLaunchedFilter, departments, CourseHeader_Fields.CourseDepartment);
             //var task = await GetCourseHeaders(accountFromHeader, departmentsFilter, size);
             //return task;
         }
+
+        private async Task<IEnumerable<CourseHeader>> GetActiveCourseHeadersByIdAsync(string accountFromHeader, string courseNos, string departments = "", int size = 0)
+        {
+            var filterSplit = courseNos.Split('|').ToList();
+
+            if (filterSplit.Count() > 500)
+            {
+                var filterIndex = courseNos.IndexOf("|", courseNos.Length / 2);
+                var res1 = await GetCourseHeadersByIdAsync(accountFromHeader, courseNos.Substring(0, filterIndex), departments, size);
+                var res2 = await GetCourseHeadersByIdAsync(accountFromHeader, courseNos.Substring(filterIndex + 1), departments, size);
+                return res1.Concat(res2);
+            }
+
+            var CourseHeaderfilter = SingleCourseHeaderFilter(courseNos, CourseHeader_Fields.No);
+            var bookedLaunchedFilter = ExtendCourseHeaderFilter(CourseHeaderfilter, "booked|Launched", CourseHeader_Fields.GeneralCourseStatus);
+            var departmentsFilter = ExtendCourseHeaderFilter(bookedLaunchedFilter, departments, CourseHeader_Fields.CourseDepartment);
+            var finalFilter = ExtendCourseHeaderFilter(departmentsFilter, ">=" + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt"), CourseHeader_Fields.To_Date);
+            var task = await GetCourseHeaders(accountFromHeader, finalFilter, size);
+            return task;
+        }
+        
 
         private async Task<IEnumerable<CourseHeader>> GetCourseHeadersByIdAsync(string accountFromHeader, string courseNos, string departments = "", int size = 0)
         {
@@ -115,6 +140,7 @@ namespace ASA.Apim.NetStdLib.Services
             var task = await GetCourseHeaders(accountFromHeader, departmentsFilter, size);
             return task;
         }
+        #endregion
 
         /// <summary>
         /// Get CourseHeaders with details from Navision, using Course number as filter.
@@ -135,16 +161,58 @@ namespace ASA.Apim.NetStdLib.Services
             return task;
         }
 
+        /* #TAG:CoreDocs */
         /// <summary>
         /// Get CourseHeaders with details from Navision, using Course number as filter.
         /// </summary>
         /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CourseHeader>> GetCourseHeadersAsync(string accountFromHeader, int size = 0)
+        public async Task<IEnumerable<CourseHeader>> GetCourseHeadersMDAsync(string accountFromHeader, string filter = null, string bookmarkKey = null, bool endDateFilter = false)
         {
-           var CourseHeaderfilter = SingleCourseHeaderFilter(string.Empty, CourseHeader_Fields.No);
-           var task = await GetCourseHeaders(accountFromHeader, CourseHeaderfilter, size);
-           return task;
+            filter = filter?? string.Empty;
+
+            var CourseHeaderfilter = SingleCourseHeaderFilter(filter, CourseHeader_Fields.No);
+            var extendedFilter = ExtendCourseHeaderFilter(CourseHeaderfilter, ">=" + DateTime.Now.AddDays(-10).ToString("MM/dd/yyyy hh:mm:ss tt"), CourseHeader_Fields.To_Date);
+            var resultFilter = endDateFilter ? extendedFilter : CourseHeaderfilter;
+            var task = await GetCourseHeadersMDAsync(accountFromHeader, resultFilter, bookmarkKey);
+            
+            LocationNos = task.AsParallel().Select(c => c.Course_Location_No).Distinct();
+            TeacherNos = task.AsParallel().Select(c => c.PrimaryTeacherNo).Distinct();
+            CourseDepartmentsCodes = task.AsParallel().Select(c => c.CourseDepartment).Distinct();//Effect??
+
+            return task;
+        }
+
+        /* #TAG:CoreDocs */
+        public async Task<IEnumerable<CourseHeader>> GetCourseHeadersMDAsync(string accountFromHeader, CourseHeader_Filter[] filter, string bookmarkKey)
+        {
+            try
+            {
+                //Workaround: AccountKey in Credentials must be provided as a request header.
+                Credentials.AccountKey = accountFromHeader;
+
+                #region usingGenerics
+                //Client must gå through GenericServiceHelper.GetClient() to get credentials and environment ApimUrl. To Test.
+                var genericServiceClientHelper = new GenericServiceClientHelper<CourseHeader_ServiceClient, CourseHeader_Service>(Credentials, AppSettings); //Generic non static Class
+                var service = genericServiceClientHelper.GetServiceClient();
+                #endregion
+
+                const int fetchSize = 100;
+                
+
+                var response = await service.ReadMultipleAsync(filter, bookmarkKey, fetchSize);
+                var results = response.ReadMultiple_Result;
+                
+                BookMark = (results.Count() >= fetchSize) ? results.Last().Key : string.Empty;
+                      
+                await service.CloseAsync();
+
+                return results;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception($"Error in GetCourseHeaders(): {exception.Message}");
+            }
         }
 
         //public async Task<IEnumerable<CourseHeader>> GetCourseHeaders(string accountFromHeader, int size = 0)
@@ -200,6 +268,7 @@ namespace ASA.Apim.NetStdLib.Services
 
 
                 CourseDepartmentsCodes = list.AsParallel().Select(c => c.CourseDepartment).Distinct();//Effect??
+
                 return list;
             }
             catch (Exception exception)

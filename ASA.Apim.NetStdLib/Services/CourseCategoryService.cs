@@ -19,6 +19,7 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         #region CoreData
+        /* #TAG:CoreDocs */
         /// <summary>
         /// Gets coursecatalogs for CoreData.
         /// </summary>
@@ -28,7 +29,14 @@ namespace ASA.Apim.NetStdLib.Services
         /// <returns></returns>
         public async Task<IEnumerable<CourseCategory>> GetMDCourseCatalogsAsync(string accountFromHeader, IEnumerable<string> courseNos = null, int size = 0)
         {
-            var ids = (await _catalogService.GetCatalogsAsync(accountFromHeader)).Select(c => c.Id.ToString());
+            //var ids = (await _catalogService.GetCatalogsAsync(accountFromHeader)).Select(c => c.Id.ToString());
+            var catalogs = await _catalogService.GetCatalogByIdAsync(accountFromHeader);
+            //var ids = (await _catalogService.GetCatalogByIdAsync(accountFromHeader)).Where(c => c.Catalog_To_Date >= DateTime.Now || c.Catalog_To_Date == DateTime.MinValue).Select(c => c.Id.ToString());
+            var ids = catalogs.Where(c => c.Catalog_To_Date >= DateTime.Now || c.Catalog_To_Date == DateTime.MinValue).Select(c => c.Id.ToString());
+            if (ids.Count() <= 0)
+            {
+                return new List<CourseCategory>();
+            }
             var criteria = Tools.GetCriteria(ids);
             var filter = SingleCourseCategoryFilter(criteria, CourseCategory_Fields.Course_Attribute_ID);
             var courseNosFilter = Tools.GetCriteria(courseNos);
@@ -36,6 +44,7 @@ namespace ASA.Apim.NetStdLib.Services
             return await GetMDCourseCategoryAsync(accountFromHeader, filter, courseNosFilter, size);
         }
 
+        /* #TAG:CoreDocs */
         /// <summary>
         /// Gets CourseCategories for CoreData.
         /// </summary>
@@ -53,6 +62,7 @@ namespace ASA.Apim.NetStdLib.Services
             return await GetMDCourseCategoryAsync(accountFromHeader, filter, courseNosFilter, size);
         }
 
+        /* #TAG:CoreDocs */
         private async Task<IEnumerable<CourseCategory>> GetMDCourseCategoryAsync(string accountFromHeader, CourseCategory_Filter[] filter, string courseNos, int size)
         {
             var filterSplit = courseNos.Split('|').ToList();
@@ -69,7 +79,6 @@ namespace ASA.Apim.NetStdLib.Services
 
             return await GetCourseCategoryAsync(accountFromHeader, courseNosFilter, size);
         }
-
 
         #endregion
 
@@ -97,7 +106,8 @@ namespace ASA.Apim.NetStdLib.Services
         /// <returns></returns>
         public async Task<IEnumerable<CourseCategory>> GetCourseCatalogsAsync(string accountFromHeader, int size = 0)
         {
-            var ids = (await _catalogService.GetCatalogsAsync(accountFromHeader)).Select(c => c.Id.ToString());
+            //var ids = (await _catalogService.GetCatalogsAsync(accountFromHeader)).Select(c => c.Id.ToString());
+            var ids = (await _catalogService.GetCatalogByIdAsync(accountFromHeader)).Select(c => c.Id.ToString());
             var criteria = Tools.GetCriteria(ids);
             var filter = SingleCourseCategoryFilter(criteria, CourseCategory_Fields.Course_Attribute_ID);
 

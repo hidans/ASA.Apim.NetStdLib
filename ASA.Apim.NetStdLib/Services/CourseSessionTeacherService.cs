@@ -34,6 +34,26 @@ namespace ASA.Apim.NetStdLib.Services
         }
 
         /// <summary>
+        /// Get MD CourseSessionTeachers with details from Navision, using CourseSessionTeacher number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseSessionTeacher>> GetMDCourseSessionTeacherAsync(string accountFromHeader, List<string> courseNos, int size = 0)
+        {
+            if (courseNos.Count() == 0)
+            {
+                return new List<CourseSessionTeacher>();
+            }
+
+            var courseNosFilter = Tools.GetCriteria(courseNos);
+
+            var CourseSessionTeacherfilter = SingleCourseSessionTeacherFilter(courseNosFilter, CourseSessionTeacher_Fields.Course_Header_No);
+            return await GetCourseSessionTeachersAsync(accountFromHeader, CourseSessionTeacherfilter, size);
+        }
+
+
+        /// <summary>
         /// Get CourseSessionTeachers with details from Navision, using CourseSessionTeacher_Filter.
         /// </summary>
         /// <param name="filter">An instance of SalaryTeacherSpec_Filter.</param>
