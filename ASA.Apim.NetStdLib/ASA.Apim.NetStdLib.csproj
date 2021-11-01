@@ -15,11 +15,15 @@
 
   <ItemGroup>
     <Compile Remove="CourseService.cs" />
+    <Compile Remove="Models\TestCase.cs" />
+    <Compile Remove="Models\TestResult.cs" />
+    <Compile Remove="Services\PerformanceTestService.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.5.3" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.5.3" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.5.3" />

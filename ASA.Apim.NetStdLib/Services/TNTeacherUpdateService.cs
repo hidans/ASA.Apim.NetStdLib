@@ -36,6 +36,38 @@ namespace ASA.Apim.NetStdLib.Services
             return await GetTN_TeacherUpdates(accountFromHeader, TN_TeacherUpdatefilter, size);
         }
 
+        /******* MD Methods Begin *******/
+        /// <summary>
+        /// Get TN_TeacherUpdatess with details from Navision, using Teacher number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<TN_TeacherUpdate>> GetMDTN_TeacherUpdatesByIdAsync(string accountFromHeader, IList<string> teacherNos, int size = 0)
+        {
+            var teacherNosFilter = Tools.GetCriteria(teacherNos);
+            if (string.IsNullOrEmpty(teacherNosFilter))
+            {
+                return new List<TN_TeacherUpdate>();
+            }
+
+            var Teacherfilter = SingleTN_TeacherUpdateFilter(teacherNosFilter, TN_TeacherUpdate_Fields.No);
+            return await TN_TeacherUpdates(accountFromHeader, Teacherfilter, size);
+        }
+
+        /// <summary>
+        /// Get SalaryTeacherSpecs with details from Navision, using SalaryTeacherSpec_Filter.
+        /// </summary>
+        /// <param name="filter">An instance of SalaryTeacherSpec_Filter.</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<TN_TeacherUpdate>> TN_TeacherUpdates(string accountFromHeader, TN_TeacherUpdate_Filter[] filter, int size = 0)
+        {
+            return await GetTN_TeacherUpdatesAsync(accountFromHeader, filter, size);
+        }
+
+        /******* MD Methods End *******/
+
         public async Task<IEnumerable<TN_TeacherUpdate>> GetTN_TeacherUpdates(string accountFromHeader, string filter = "", int size = 0)
         {
             var TN_TeacherUpdatefilter = SingleTN_TeacherUpdateFilter(filter, TN_TeacherUpdate_Fields.No);

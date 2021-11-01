@@ -31,6 +31,26 @@ namespace ASA.Apim.NetStdLib.Services
             return task;
         }
 
+        /// <summary>
+        /// Get MDCourseParticipants with details from Navision, using Course_Header number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CourseParticipant>> GetMDCourseParticipantByIdAsync(string accountFromHeader, IList<string> courseNos, int size = 0)
+        {
+            var courseParticipantNosFilter = Tools.GetCriteria(courseNos);
+
+            if (string.IsNullOrEmpty(courseParticipantNosFilter))
+            {
+                return new List<CourseParticipant>();
+            }
+
+            var CourseParticipantfilter = SingleCourseParticipantFilter(courseParticipantNosFilter, CourseParticipant_Fields.Course_Header_No);
+            var task = await GetCourseParticipantsAsync(accountFromHeader, CourseParticipantfilter, size);
+            return task;
+        }
+
         //public async Task<IEnumerable<CourseParticipant>> GetCourseParticipantsAsync(string accountFromHeader, int size = 0)
         //{
         //    return await GetCourseParticipantByIdAsync(accountFromHeader, "");

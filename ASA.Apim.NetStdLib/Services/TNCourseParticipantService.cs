@@ -31,6 +31,34 @@ namespace ASA.Apim.NetStdLib.Services
             return task;
         }
 
+        /// <summary>
+        /// Get MDTN_CourseParticipants with details from Navision, using Course_Header number as filter.
+        /// </summary>
+        /// <param name="filter">Search: All records starting with for instance 10 -> "10..", all records ending with f.i. 10 -> "..10", record with id = 1014 -> "1014" or any record with id in (1014,1015,1016) -> "1014|1015|1016" [Optional]</param>
+        /// <param name="size">Maximum returned records. 0 returns all records. [Optional]</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<TN_CourseParticipant>> GetMDTN_CourseParticipantByIdAsync(string accountFromHeader, IList<string> courseNos, int size = 0)
+        {
+            if (courseNos.Count() > 1000)
+            {
+                int filterIndex = courseNos.Count() / 2;
+                var res1 = await GetMDTN_CourseParticipantByIdAsync(accountFromHeader, courseNos.Take(filterIndex).ToList(), size);
+                var res2 = await GetMDTN_CourseParticipantByIdAsync(accountFromHeader, courseNos.Skip(filterIndex).ToList(), size);
+                return res1.Concat(res2);
+            }
+
+            var courseParticipantNosFilter = Tools.GetCriteria(courseNos);
+            
+            if (string.IsNullOrEmpty(courseParticipantNosFilter))
+            {
+                return new List<TN_CourseParticipant>();
+            }
+
+            var TN_CourseParticipantfilter = SingleTN_CourseParticipantFilter(courseParticipantNosFilter, TN_CourseParticipant_Fields.Course_Header_No);
+            var task = await GetTN_CourseParticipantsAsync(accountFromHeader, TN_CourseParticipantfilter, size);
+            return task;
+        }
+
         public async Task<IEnumerable<TN_CourseParticipant>> GetTN_CourseParticipantByIdAndStatusAsync(string accountFromHeader, Course_Line_Status status, string filter = "", int size = 0)
         {
             var TN_CourseParticipantfilter = SingleTN_CourseParticipantFilter(filter, TN_CourseParticipant_Fields.Course_Header_No);

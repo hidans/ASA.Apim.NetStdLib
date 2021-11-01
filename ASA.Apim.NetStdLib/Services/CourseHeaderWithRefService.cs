@@ -23,6 +23,15 @@ namespace ASA.Apim.NetStdLib.Services
         /// <returns></returns>
         public async Task<IEnumerable<string>> GetCourseHeaderWithRefById(string accountFromHeader, List<string> courseNos, int size = 0)
         {
+
+            if (courseNos.Count() > 500)
+            {
+                var middle = courseNos.Count / 2;
+                var res1 = await GetCourseHeaderWithRefById(accountFromHeader, courseNos.Take(middle).ToList(), size);
+                var res2 = await GetCourseHeaderWithRefById(accountFromHeader, courseNos.Skip(middle).Take(courseNos.Count - middle).ToList(), size);
+                return res1.Concat(res2);
+            }
+
             var filter = Tools.GetCriteria(courseNos);
             var CourseHeaderWithReffilter = SingleCourseHeaderWithRefFilter(filter, courseHeaderWithRef_Fields.No);
 
@@ -51,7 +60,7 @@ namespace ASA.Apim.NetStdLib.Services
             }
             catch (Exception exception)
             {
-                throw new Exception($"Error in GetMunicipalitiesAsync(): {exception.Message}");
+                throw new Exception($"Error in GetCourseHeaderWithRefsAsync(): {exception.Message}");
             }
         }
 
