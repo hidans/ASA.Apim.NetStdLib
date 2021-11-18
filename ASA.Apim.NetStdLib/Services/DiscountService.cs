@@ -39,15 +39,21 @@ namespace ASA.Apim.NetStdLib.Services
         /// <returns></returns>
         public async Task<IEnumerable<DiscountCodes>> GetDiscountCodesByCourseNo(string accountFromHeader, string filter, int size = 0)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                //throw new Exception("Filter cannot be null or empty string.");
-                return new List<DiscountCodes>();
-            }
+            //if (string.IsNullOrEmpty(filter))
+            //{
+            //    //throw new Exception("Filter cannot be null or empty string.");
+            //    return new List<DiscountCodes>();
+            //}
 
             var DiscountCodesfilter = SingleDiscountCodesFilter(filter, DiscountCodes_Fields.Course_Header_No);
             var results = await GetCommonDiscountCodes(accountFromHeader);
             return results.Concat(await GetDiscountCodes(accountFromHeader, DiscountCodesfilter, size));
+        }
+
+        public async Task<IEnumerable<DiscountCodes>> GetDiscountCodes(string accountFromHeader, int size = 0)
+        {
+            var discountCodesfilter = SingleDiscountCodesFilter("", DiscountCodes_Fields.Course_Header_No);
+            return await GetDiscountCodesAsync(accountFromHeader, discountCodesfilter, size);
         }
 
         /// <summary>
@@ -73,7 +79,16 @@ namespace ASA.Apim.NetStdLib.Services
 
                 var response = await service.ReadMultipleAsync(filter, "", size);
                 await service.CloseAsync();
-                return response.ReadMultiple_Result.ToList();
+                var list = response.ReadMultiple_Result.ToList();
+                list.RemoveAll(l => string.IsNullOrWhiteSpace(l.Code));
+                var discountCodesSats = list.Where(l => string.IsNullOrWhiteSpace(l.Course_Header_No) && !l.Valid_For_School);
+                list.Where(l => !string.IsNullOrWhiteSpace(l.Course_Header_No)).ToList().ForEach(d =>
+                {
+                    d.Percent_Amount = (decimal)(discountCodesSats.Where(s => s.Code == d.Code)?.FirstOrDefault().Percent_Amount);
+                    d.Discount_Type = (Discount_Type)(discountCodesSats.Where(s => s.Code == d.Code)?.FirstOrDefault().Discount_Type);
+                });
+
+                return list;
             }
             catch (Exception exception)
             {

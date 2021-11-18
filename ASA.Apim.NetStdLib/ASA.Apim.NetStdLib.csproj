@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EnvironmentAppsettings\EnvironmentAppsettings\EnvironmentAppsettings.csproj" />
-    <!--<ProjectReference Include="..\..\ZoMineAppSettings\ZoMineAppSettings\ZoMineAppSettings.csproj" />-->
   </ItemGroup>
 
   <ItemGroup>
