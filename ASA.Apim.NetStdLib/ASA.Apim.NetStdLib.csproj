@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0.1</Version>
-    <Authors>iQiDigital ivs</Authors>
+    <Version>1.0.0.2</Version>
+    <Authors>iQiDigital A/S</Authors>
     <PackageTags>ASA .NET Standard</PackageTags>
-    <PackageReleaseNotes>Version 1.0.0.1. More Services will be exposed.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 1.0.0.2. Exposing SOAP Services used by differents ASA Applications and APIs. Now using EnvironmentAppsettings NuGet Package</PackageReleaseNotes>
     <Description>Calls NAV SOAP Services and expose them as .NET Service classes.</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -22,6 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="EnvironmentAppsettings" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.5.3" />
@@ -29,10 +31,6 @@
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.5.3" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.5.3" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\EnvironmentAppsettings\EnvironmentAppsettings\EnvironmentAppsettings.csproj" />
   </ItemGroup>
 
   <ItemGroup>
