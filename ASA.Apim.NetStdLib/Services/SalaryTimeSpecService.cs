@@ -25,7 +25,7 @@ namespace ASA.Apim.NetStdLib.Services
         /// <returns></returns>
         public async Task<IEnumerable<SalaryTimeSpec>> GetSalaryTimeSpecs(string accountFromHeader, DateTime fromDateTime, DateTime toDateTime, int size = 0)
         {
-            var SalaryTimeSpecfilter = SingleSalaryTimeSpecFilter("false", SalaryTimeSpec_Fields.Salary_Settled);
+            var SalaryTimeSpecfilter = SingleSalaryTimeSpecFilter(string.Empty, SalaryTimeSpec_Fields.Salary_Settled);
             return await GetSalaryTimeSpecs(accountFromHeader, fromDateTime, toDateTime, SalaryTimeSpecfilter, size);
         }
 
@@ -43,7 +43,7 @@ namespace ASA.Apim.NetStdLib.Services
                 return new List<SalaryTimeSpec>();
             }
 
-            var salaryTimeSpecfilter1 = SingleSalaryTimeSpecFilter("false", SalaryTimeSpec_Fields.Salary_Settled);
+            var salaryTimeSpecfilter1 = SingleSalaryTimeSpecFilter(string.Empty, SalaryTimeSpec_Fields.Salary_Settled);
             //var salaryTimeSpecfilter2 = SingleSalaryTimeSpecFilter(filter, SalaryTimeSpec_Fields.Department_Code);
             //SalaryTimeSpec_Filter[] salaryTimeSpecfilters = { salaryTimeSpecfilter1.ElementAt(0), salaryTimeSpecfilter2.ElementAt(0) };
             //return await GetSalaryTimeSpecs(accountFromHeader, fromDateTime, toDateTime, salaryTimeSpecfilters, size);
